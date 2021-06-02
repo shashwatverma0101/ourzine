@@ -1,0 +1,17 @@
+
+.helpcontainer{
+/* text-align: center; */
+height: 967px;
+background-color: #FFFFF0;
+}
+.helpcontents-centered {
+    width: auto;
+    text-align: left;
+    padding: 64px 287px 0px 43px;
+}
+.topicheading{
+    font-weight: bold;
+}
+.insidecontents{
+
+}

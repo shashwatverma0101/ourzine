@@ -9,10 +9,10 @@ import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
 import { LocalStorage } from "../../utils";
-import PasswordLock from '../../Image/PasswordLock.svg'
-import * as $ from 'jquery'
-import PasswordPopup from './components/PasswordPopup'
-import DeleteModal from '../../components/modal/DeleteModal'
+import PasswordLock from "../../Image/PasswordLock.svg";
+import * as $ from "jquery";
+import PasswordPopup from "./components/PasswordPopup";
+import DeleteModal from "../../components/modal/DeleteModal";
 
 const Profile = () => {
   const user = JSON.parse(localStorage.getItem("USER"));
@@ -23,8 +23,11 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [confirmNewPassword, setConfirmNewPassword] = useState("")
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [name, setName] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
 
   const handleUploadProfilePic = (e) => {
     setIsLoading(true);
@@ -45,7 +48,6 @@ const Profile = () => {
   };
 
   const handleDeleteUser = () => {
-    // popupfunc2()
     setIsLoading(true);
     auth
       .deleteUser()
@@ -65,21 +67,24 @@ const Profile = () => {
   };
 
   const handleChangePassword = () => {
-    if(newPassword !== confirmNewPassword) return toast.error("new and confirm password should be same")
-    setIsLoading(true)
+    if (newPassword !== confirmNewPassword)
+      return toast.error("new and confirm password should be same");
+    setIsLoading(true);
     auth
       .changePasswordd({ currentPassword, newPassword })
       .then((res) => {
-        setIsLoading(false)
+        setIsLoading(false);
         if (res.data.result === "invalid")
           return toast.error("Invalid Password");
         if (res.data.result === "error")
           return toast.error("Something went wrong");
-        if (res.data.result === true)
-          return toast.success("Password Changed Successfully");
+        if (res.data.result === true) {
+          setShowPasswordModal(true);
+          setShowChangePassword(false);
+        }
       })
       .catch((e) => {
-        setIsLoading(false)
+        setIsLoading(false);
         toast.error("Something went wrong");
       });
   };
@@ -98,50 +103,40 @@ const Profile = () => {
       });
   };
 
-  const popupfunc1 = () => {debugger;
- 
-    var modal = document.getElementById("PasswordModal");
-    $("#PasswordModal").css({ display: "block" });
-    window.onclick = function (event) {
-      if (event.target == modal) {
-        $("#PasswordModal").css({ display: "none" });
-      }
-    };
-  };
-  const popupfunc2 = () => {debugger;
- 
-    var modal = document.getElementById("DeleteAcModal");
-    $("#DeleteAcModal").css({ display: "block" });
-    window.onclick = function (event) {
-      if (event.target == modal) {
-        $("#DeleteAcModal").css({ display: "none" });
-      }
-    };
-  };
- 
-  const NameInput=()=>{
+  const NameInput = () => {
     // window.onload = function() {
-      var editicon = document.getElementById('editicon');
-      var textedit = document.getElementById('inputeditable');
-      editicon.onclick = function(e) {
-        textedit.contentEditable = true;
-        textedit.focus();
-        $('#editicon').css({'display':'none' });                
-      }
- 
-      textedit.onmouseout = function() {               
-          textedit.contentEditable = false;
-          $('#editicon').css({'display':'block' });
-        }
-        // }
-  }
+    var editicon = document.getElementById("editicon");
+    var textedit = document.getElementById("inputeditable");
+    editicon.onclick = function (e) {
+      textedit.contentEditable = true;
+      textedit.focus();
+      $("#editicon").css({ display: "none" });
+    };
+
+    textedit.onmouseout = function () {
+      textedit.contentEditable = false;
+      $("#editicon").css({ display: "block" });
+    };
+    // }
+  };
 
   return (
     <>
       {isLoading ? <Loader /> : ""}
       <Navigation isEdit={true} />
-      <PasswordPopup/>
-      <DeleteModal/>
+      <PasswordPopup
+        onReject={() => setShowPasswordModal(false)}
+        showModal={showPasswordModal}
+      />
+      <DeleteModal
+        onAccept={handleDeleteUser}
+        onReject={() => setShowModal(false)}
+        showModal={showModal}
+        msg1="Are you sure you want to delete account?"
+        msg2="Deleting account will permanently delete your edited text."
+        btnTxt1="Cancel"
+        btnTxt2="Delete"
+      />
       <Row style={{ marginTop: "20px" }}>
         <Col span={1}></Col>
         <Col span={4}>
@@ -183,7 +178,7 @@ const Profile = () => {
                 </p>
               </Col>
               <Col span={12}>
-                <img src={edit} onClick = {NameInput} />
+                <img src={edit} onClick={NameInput} />
               </Col>
               <Divider style={{ color: "#C4C4C4" }} />
             </Row>
@@ -233,82 +228,93 @@ const Profile = () => {
           >
             Password
           </h1>
-          <div style={{ width: "50%", marginBottom: "20px" }}>
-            <Input
-              style={{
-                fontSize: "21px",
-                padding: "9px 9px 9px 19px",
-                borderRadius: "7px",
-                width: "345px",
-                marginLeft: "auto",
-                marginRight: "auto",
-                backgroundColor: "#C9E3E1",
-              }}
-              type="password"
-              required
-              value ={currentPassword}
-              onChange = {(e) => setCurrentPassword(e.target.value)}
-              size="large"
-              className="site-form-item-icon1"
-              prefix={<img src={PasswordLock} />}
-              placeholder="Current Password"
-            />
-            <Input
-              style={{
-                fontSize: "21px",
-                padding: "9px 9px 9px 19px",
-                borderRadius: "7px",
-                width: "345px",
-                marginLeft: "auto",
-                marginRight: "auto",
-                backgroundColor: "#C9E3E1",
-                marginTop: "14px",
-              }}
-              required
-              type="password"
-              value ={newPassword}
-              onChange = {(e) => setNewPassword(e.target.value)}
-              size="large"
-              className="site-form-item-icon1"
-              prefix={<img src={PasswordLock} />}
-              placeholder="New Password"
-            />
-            <p
-              style={{
-                fontSize: "12px",
-                color: "#C9E3E1",
-                marginBottom: "3px",
-                marginTop: "5px",
-              }}
+          {showChangePassword ? (
+            <>
+              {" "}
+              <div style={{ width: "50%", marginBottom: "20px" }}>
+                <Input
+                  style={{
+                    fontSize: "21px",
+                    padding: "9px 9px 9px 19px",
+                    borderRadius: "7px",
+                    width: "345px",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    backgroundColor: "#C9E3E1",
+                  }}
+                  type="password"
+                  required
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  size="large"
+                  className="site-form-item-icon1"
+                  prefix={<img src={PasswordLock} />}
+                  placeholder="Current Password"
+                />
+                <Input
+                  style={{
+                    fontSize: "21px",
+                    padding: "9px 9px 9px 19px",
+                    borderRadius: "7px",
+                    width: "345px",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    backgroundColor: "#C9E3E1",
+                    marginTop: "14px",
+                  }}
+                  required
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  size="large"
+                  className="site-form-item-icon1"
+                  prefix={<img src={PasswordLock} />}
+                  placeholder="New Password"
+                />
+                <p
+                  style={{
+                    fontSize: "12px",
+                    color: "#C9E3E1",
+                    marginBottom: "3px",
+                    marginTop: "5px",
+                  }}
+                >
+                  Use 8 or more characters with a mix of letters, numbers and
+                  symbols
+                </p>
+                <Input
+                  style={{
+                    fontSize: "21px",
+                    padding: "9px 9px 9px 19px",
+                    borderRadius: "7px",
+                    width: "345px",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    backgroundColor: "#C9E3E1",
+                    marginTop: "14px",
+                  }}
+                  type="password"
+                  required
+                  value={confirmNewPassword}
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                  size="large"
+                  className="site-form-item-icon1"
+                  prefix={<img src={PasswordLock} />}
+                  placeholder="Confirm Password"
+                />
+              </div>
+              <CustomButton btnWidth={"150px"} onClick={handleChangePassword}>
+                Change Password
+              </CustomButton>
+            </>
+          ) : (
+            <CustomButton
+              btnWidth={"150px"}
+              onClick={() => setShowChangePassword(true)}
             >
-              Use 8 or more characters with a mix of letters, numbers and
-              symbols
-            </p>
-            <Input
-              style={{
-                fontSize: "21px",
-                padding: "9px 9px 9px 19px",
-                borderRadius: "7px",
-                width: "345px",
-                marginLeft: "auto",
-                marginRight: "auto",
-                backgroundColor: "#C9E3E1",
-                marginTop: "14px",
-              }}
-              type="password"
-              required
-              value ={confirmNewPassword}
-              onChange = {(e) => setConfirmNewPassword(e.target.value)}
-              size="large"
-              className="site-form-item-icon1"
-              prefix={<img src={PasswordLock} />}
-              placeholder="Confirm Password"
-            />
-          </div>
-
-          {/* <CustomButton btnWidth={"150px"} onClick = {popupfunc1}>Change Password </CustomButton> */}
-          <CustomButton btnWidth={"150px"} onClick = {handleChangePassword}>Change Password </CustomButton>
-
+              Change Password{" "}
+            </CustomButton>
+          )}
           <Divider style={{ color: "#C4C4C4" }} />
         </Col>
         <Col span={7}></Col>
@@ -326,7 +332,7 @@ const Profile = () => {
             By deleting your account, you'll no longer be able to access any of
             your document on ourzine{" "}
           </p>
-          <CustomButton onClick={handleDeleteUser} btnWidth={"130px"}>
+          <CustomButton onClick={() => setShowModal(true)} btnWidth={"130px"}>
             Delete Account{" "}
           </CustomButton>
         </Col>

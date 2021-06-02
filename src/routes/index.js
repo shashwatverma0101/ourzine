@@ -8,6 +8,7 @@ import Forgotpassword from "../pages/Authentication/Forgotpassword";
 import Resetpassword from "../pages/Authentication/Resetpassword";
 import Worksheet from "../pages/Worksheet";
 import Profile from '../pages/Profile'
+import Help from '../pages/Help'
 import { ROUTES } from "./constant";
 import PublicRoute from "./Public.route";
 import PrivateRoute from "./Private.route";
@@ -56,6 +57,12 @@ const PrivateroutesConfig = [
     key:2,
     component : Profile,
     path:ROUTES.PROFILE
+  },
+
+  {
+    key:3,
+    component: Help,
+    path:ROUTES.HELP
   }
 ];
 

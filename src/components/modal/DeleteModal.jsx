@@ -6,23 +6,9 @@ import TickSquare from "../../Image/Tick Square.svg";
 import CloseSquare from "../../Image/Close Square.svg";
 import ProfileDelete from "../../Image/ProfileDelete.svg";
 
-const DeleteModal = ({
-  buttontext,
-}) => {
-  const popupfunc = () => {
-    const modal = document.getElementById("DeleteAcModal");
-
-    $("#DeleteAcModal").css({ display: "none" });
-    window.onclick = function (event) {
-      if (event.target == modal) {
-        // modal.style.display = "none";
-        $("#DeleteAcModal").css({ display: "none" });
-      }
-    };
-  };
-
+const DeleteModal = ({ msg1, msg2, btnTxt1, btnTxt2 ,showModal , onAccept, onReject}) => {
   return (
-    <div id="DeleteAcModal" className="modal2">
+    <div id="DeleteAcModal" style ={{display : `${showModal ? "block" : ""}`}} className="modal2">
       <div className="modal-content2">
         {/* <div className="modal-header2">
       <img src={CloseSquare} className='close2' />
@@ -38,11 +24,9 @@ const DeleteModal = ({
                 fontWeight: "bold",
               }}
             >
-              Are you sure you want to delete account?
+              {msg1}
             </h2>
-            <p style={{ color: "#429F97", fontSize: "14px" }}>
-              Deleting account will permanently delete your edited text.
-            </p>
+            <p style={{ color: "#429F97", fontSize: "14px" }}>{msg2}</p>
             <div>
               <Button
                 style={{
@@ -61,9 +45,9 @@ const DeleteModal = ({
                 shape="round"
                 size="large"
                 className="login-form-button"
-                onClick={() => popupfunc()}
+                onClick = {onReject}
               >
-                Cancel
+                {btnTxt1}
               </Button>
               <Button
                 style={{
@@ -82,8 +66,9 @@ const DeleteModal = ({
                 shape="round"
                 size="large"
                 className="login-form-button"
+                onClick={onAccept}
               >
-                Delete
+                {btnTxt2}
               </Button>
             </div>
           </div>

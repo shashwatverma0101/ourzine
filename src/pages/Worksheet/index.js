@@ -51,8 +51,16 @@ import DangerTriangle from "../../Image/DangerTriangle.svg";
 import worksheet from "../../services/worksheet";
 import { toast } from "react-toastify";
 import PrintPopup from "./components/PrintPopup";
+import PrintDisable from "../../Image/PrintDisable.svg";
+import AddSheetDisable from "../../Image/AddSheetDisable.svg";
+import DeleteSheetDisable from "../../Image/DeleteSheetDisable.svg";
+import SaveDisable from "../../Image/SaveDisable.svg";
+import DeleteDisable from "../../Image/DeleteDisable.svg";
+import HelpDisable from "../../Image/HelpDisable.svg";
 import Loader from "../../components/loader/Loader";
 import { useHistory } from "react-router-dom";
+import DeleteModal from "../../components/modal/DeleteModal";
+
 
 const { Header, Sider, Content } = Layout;
 const menu = (
@@ -82,7 +90,10 @@ const Worksheet = () => {
   const [resetSheet, setResetSheet] = useState(false);
   const [worksheetId, setWorksheetId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false)
+  const [showDeleteSheetModal, setShowDeleteSheetModal] = useState(false)
   const history = useHistory();
+
   // const [checkDelete, setDeleteCheck] = useState(false)
 
   const toggle = () => {
@@ -121,7 +132,6 @@ const Worksheet = () => {
       });
   }, []);
 
-
   useEffect(() => {
     let slideNumber = 1;
     setSheet([
@@ -133,7 +143,6 @@ const Worksheet = () => {
     // setDeleteCheck(true)
   }, [resetSheet]);
 
-  
   // useEffect(() => {
   //   if(checkDelete && worksheetId){
   //     handleSave()
@@ -192,6 +201,19 @@ const Worksheet = () => {
       });
   };
 
+
+  const handleDeleteSlide = () => {
+     setShowModal(false)
+      setResetSheet(!resetSheet);
+      setCurrentSlide(currentSlide - 1);
+      setTotalSlide(totalSlide - 1);
+      setOption("deleteSheet");
+      setSheet([
+        ...sheet.filter((slides) => slides.slide !== currentSlide),
+      ]);
+    
+  }
+
   const handleWorksheetDelete = () => {
     if (!worksheetId) {
       setDefaultSheet({
@@ -204,13 +226,15 @@ const Worksheet = () => {
       setTotalSlide(1);
       setResetSheet(false);
       setWorksheetId("");
+      setShowDeleteSheetModal(false)
       return;
     }
-    setIsLoading(true)
+    setIsLoading(true);
     worksheet
       .deleteWorksheet(worksheetId)
       .then((res) => {
-        setIsLoading(false)
+        setShowDeleteSheetModal(false)
+        setIsLoading(false);
         if (res.data.result === "notFound")
           return toast.error("Worksheet Not Found");
         if (res.data.result === true) {
@@ -227,7 +251,7 @@ const Worksheet = () => {
         }
       })
       .catch((e) => {
-        setIsLoading(false)
+        setIsLoading(false);
         toast.error("Something went wrong");
       });
   };
@@ -242,10 +266,32 @@ const Worksheet = () => {
     };
   };
 
+
   return (
     <>
       {isLoading ? <Loader /> : ""}
       <Navigation />
+      <DeleteModal
+        onAccept={handleDeleteSlide}
+        onReject = {() => setShowModal(false)}
+        msg1="Are you sure you want to remove page?"
+        msg2="You will loose all the edits done on this page."
+        btnTxt1="Cancel"
+        btnTxt2="Delete"
+        showModal= {showModal}
+        
+      />
+       <DeleteModal
+        onAccept={handleWorksheetDelete}
+        onReject = {() => setShowDeleteSheetModal(false)}
+        msg1="Are you sure you want to delete document?"
+        msg2="You no longer would be able to restore this document"
+        btnTxt1="Cancel"
+        btnTxt2="Delete"
+        showModal= {showDeleteSheetModal}
+        
+      />
+
       <PrintPopup sheet={sheet} defaultSheet={defaultSheet} />
       <Layout style={{ height: "890px", display: "flex" }}>
         <div id="mainleftnav">
@@ -269,8 +315,25 @@ const Worksheet = () => {
               defaultSheet.title || defaultSheet.subtitle ? false : true
             }
           >
-            <img src={Print} style={{ marginLeft: "14px" }} />
-            Print
+            <img
+              src={
+                defaultSheet.title || defaultSheet.subtitle
+                  ? Print
+                  : PrintDisable
+              }
+              style={{
+                marginLeft: "14px",
+              }}
+            />
+            <span
+              style={{
+                color: `${
+                  defaultSheet.title || defaultSheet.subtitle ? "" : "#429f97"
+                }`,
+              }}
+            >
+              Print
+            </span>
           </button>
           <button
             className={`leftcontents ${option === "addSheet" ? "active" : ""}`}
@@ -283,8 +346,23 @@ const Worksheet = () => {
               setSheet([...sheet, { slide: totalSlide + 1, para: "" }]);
             }}
           >
-            <img src={AddSheet} style={{ marginLeft: "14px" }} />
-            Add sheet
+            <img
+              src={
+                defaultSheet.title || defaultSheet.subtitle
+                  ? AddSheet
+                  : AddSheetDisable
+              }
+              style={{ marginLeft: "14px" }}
+            />
+            <span
+              style={{
+                color: `${
+                  defaultSheet.title || defaultSheet.subtitle ? "" : "#429f97"
+                }`,
+              }}
+            >
+              Add sheet
+            </span>
           </button>
           <button
             disabled={
@@ -294,19 +372,28 @@ const Worksheet = () => {
               option === "deleteSheet" ? "active" : ""
             }`}
             onClick={() => {
-              if (currentSlide !== 1) {
-                setResetSheet(!resetSheet);
-                setCurrentSlide(currentSlide - 1);
-                setTotalSlide(totalSlide - 1);
-                setOption("deleteSheet");
-                setSheet([
-                  ...sheet.filter((slides) => slides.slide !== currentSlide),
-                ]);
-              }
+              if (currentSlide !== 1)
+              setShowModal(true)
             }}
           >
-            <img src={DeleteSheet} style={{ marginLeft: "14px" }} />
-            Delete sheet
+            <img
+              src={
+                defaultSheet.title || defaultSheet.subtitle
+                  ? DeleteSheet
+                  : DeleteSheetDisable
+              }
+              style={{ marginLeft: "14px" }}
+            />
+            <span
+              style={{
+                color: `${
+                  defaultSheet.title || defaultSheet.subtitle ? "" : "#429f97"
+                }`,
+              }}
+            >
+              {" "}
+              Delete sheet
+            </span>
           </button>
           <button
             className={`leftcontents ${option === "save" ? "active" : ""}`}
@@ -318,28 +405,76 @@ const Worksheet = () => {
               defaultSheet.title || defaultSheet.subtitle ? false : true
             }
           >
-            <img src={Save} style={{ marginLeft: "14px" }} />
-            Save
+            <img
+              src={
+                defaultSheet.title || defaultSheet.subtitle ? Save : SaveDisable
+              }
+              style={{ marginLeft: "14px" }}
+            />
+            <span
+              style={{
+                color: `${
+                  defaultSheet.title || defaultSheet.subtitle ? "" : "#429f97"
+                }`,
+              }}
+            >
+              {" "}
+              Save{" "}
+            </span>
           </button>
           <button
             className={`leftcontents ${option === "delete" ? "active" : ""}`}
             onClick={() => {
               setOption("delete");
-              handleWorksheetDelete();
+              setShowDeleteSheetModal(true)
             }}
             disabled={
               defaultSheet.title || defaultSheet.subtitle ? false : true
             }
           >
-            <img src={Delete} style={{ marginLeft: "14px" }} />
-            Delete
+            <img
+              src={
+                defaultSheet.title || defaultSheet.subtitle
+                  ? DeleteSheet
+                  : DeleteSheetDisable
+              }
+              style={{ marginLeft: "14px" }}
+            />
+            <span
+              style={{
+                color: `${
+                  defaultSheet.title || defaultSheet.subtitle ? "" : "#429f97"
+                }`,
+              }}
+
+            >
+              {" "}
+              Delete
+            </span>
           </button>
           <button
             className={`leftcontents ${option === "help" ? "active" : ""}`}
-            onClick={() => setOption("help")}
+            onClick={() => {
+              setOption("help");
+              history.push("/help");
+            }}
           >
-            <img src={Help} style={{ marginLeft: "14px" }} />
-            Help
+            <img
+              src={
+                defaultSheet.title || defaultSheet.subtitle ? Help : HelpDisable
+              }
+              style={{ marginLeft: "14px" }}
+            />
+            <span
+              style={{
+                color: `${
+                  defaultSheet.title || defaultSheet.subtitle ? "" : "#429f97"
+                }`,
+              }}
+            >
+              {" "}
+              Help{" "}
+            </span>
           </button>
         </div>
         <div class="box">
@@ -429,7 +564,9 @@ const Worksheet = () => {
                   onChange={(e) =>
                     setDefaultSheet({ ...defaultSheet, title: e.target.value })
                   }
-                >  </textarea>
+                >
+                  {" "}
+                </textarea>
                 <form name="myform">
                   <textarea
                     name="limitedtextarea"

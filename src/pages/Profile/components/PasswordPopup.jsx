@@ -7,25 +7,13 @@ import CloseSquare from '../../../Image/Close Square.svg';
 import ProfileDelete from '../../../Image/ProfileDelete.svg';
 
 
-const PasswordPopup = () => {
-
-    const popupfunc = () => {
-        const modal = document.getElementById("PasswordModal");
-    
-        $("#PasswordModal").css({display:"none"});
-        window.onclick = function (event) {
-          if (event.target == modal) {
-            // modal.style.display = "none";
-            $("#PasswordModal").css({ display: "none" });
-          }
-        };
-      };
+const PasswordPopup = ({showModal , onReject}) => {
 
   return (
-    <div id="PasswordModal" className="modal1">
+    <div id="PasswordModal" className="modal1" style={{display : `${showModal ? "block" : ""}`}}>
       <div className="modal-content1">
       <div className="modal-header1">
-      <img src={CloseSquare} className='close1'onClick={()=>popupfunc() } />
+      <img src={CloseSquare} className='close1'onClick={onReject } />
     </div>
         <div className="modal-body1">
           <div className="popupbody1"> 
@@ -48,7 +36,7 @@ const PasswordPopup = () => {
             shape="round"
             size="large"
             className="login-form-button"
-            onClick={()=>popupfunc() }
+            onClick={onReject}
           >
             Continue Editing
           </Button>
