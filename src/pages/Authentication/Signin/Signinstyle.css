@@ -1,0 +1,67 @@
+/* .right {
+    width: 100%;
+    height: 100%;
+    background: #F9F9F9;
+    right: 0;
+    position: absolute;
+}
+
+#ic {
+    width: 250px;
+    margin: 0 auto;
+    top: 50%;
+    margin-top: -162px;
+    position: absolute;
+    left: 50%;
+    margin-left: -125px;
+    text-align: center;
+} */
+/* .imagecontainer {
+    position: relative;
+    text-align: center;
+    color: white;
+    
+  }
+.textcentered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .div1 {
+    width: 100%;
+    height: 962px;
+    border: 1px solid blue;
+  } */
+  .ant-input{
+    background-color: #c9e3e1;
+    margin-left: 11px;
+  }
+  /* .ant-form-item-has-error{
+    background-color: rgb(159, 191, 223);
+  } */
+
+.ant-input:placeholder-shown{
+  margin-left: 11px;
+  background-color: #c9e3e1;
+}
+.ant-input:hover{
+  background-color: #c9e3e1;
+}
+  .ant-input::placeholder{
+    color:#429f97
+  }
+  .ant-input-password-icon{
+    color:#429f97
+  }
+  .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover{
+    border-color: unset;
+    border:1px solid #c9e3e1;
+  }
+  .ant-input-affix-wrapper-focused{
+    border-color: #c9e3e1;
+    border-right-width: 1px !important;
+    outline: 0;
+    box-shadow:unset;
+  }
+ 
