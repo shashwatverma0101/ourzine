@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navigation from "../../components/navigation/Navigation";
-import { Row, Col, Divider, Input } from "antd";
+import { Row, Col, Divider, Input, Form } from "antd";
 import edit from "../../Image/edit.svg";
 import CustomButton from "./components/CustomButton";
 import userImage from "../../Image/userImage.svg";
@@ -13,12 +13,14 @@ import PasswordLock from "../../Image/PasswordLock.svg";
 import * as $ from "jquery";
 import PasswordPopup from "./components/PasswordPopup";
 import DeleteModal from "../../components/modal/DeleteModal";
+import { BASE_API_URL } from "../../services/domain";
+import "./Profile.css";
+import { createStructuredSelector } from "reselect";
+import { selectCurrentUser } from "../../redux/selectors/auth";
+import { connect } from "react-redux";
+import { fetchCurrentUser } from "../../redux/actions/auth";
 
-const Profile = () => {
-  const user = JSON.parse(localStorage.getItem("USER"));
-  const [profile, setProfile] = useState(
-    `http://localhost:8080/auth/get-profilepic/${user._id}`
-  );
+const Profile = ({ currentUser,updateCurrentUser }) => {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -28,6 +30,11 @@ const Profile = () => {
   const [showModal, setShowModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showFullName, setShowFullName] = useState(false);
+
+  useEffect(() => {
+    if (currentUser) setName(currentUser.name);
+  }, [currentUser]);
 
   const handleUploadProfilePic = (e) => {
     setIsLoading(true);
@@ -57,6 +64,7 @@ const Profile = () => {
           return toast.error("Something went wrong");
         if (res.data.result === true) {
           LocalStorage.ClearLocalstorage();
+          updateCurrentUser(null)
           history.push("/");
         }
       })
@@ -68,14 +76,14 @@ const Profile = () => {
 
   const handleChangePassword = () => {
     if (newPassword !== confirmNewPassword)
-      return toast.error("new and confirm password should be same");
+      return toast.error("Password and Confirm Password should matched");
     setIsLoading(true);
     auth
       .changePasswordd({ currentPassword, newPassword })
       .then((res) => {
         setIsLoading(false);
         if (res.data.result === "invalid")
-          return toast.error("Invalid Password");
+          return toast.error("Password is incorrect");
         if (res.data.result === "error")
           return toast.error("Something went wrong");
         if (res.data.result === true) {
@@ -90,38 +98,29 @@ const Profile = () => {
   };
 
   const handleUpdateProfile = () => {
+    setIsLoading(true);
     auth
-      .updateProfile()
+      .updateProfile({ name })
       .then((res) => {
+        setIsLoading(false);
         if (res.data.result === "invalid") return toast.error("Invalid Update");
         if (res.data.result === "error")
           return toast.error("Something went wrong");
-        if (res.data.result === true) return toast.success("Success");
+        if (res.data.result === true) {
+          currentUser.name = name
+          updateCurrentUser(currentUser)
+          setShowFullName(false);
+          history.push('/worksheet')
+        }
       })
       .catch((e) => {
+        setIsLoading(false);
         toast.error("something went wrong");
       });
   };
 
-  const NameInput = () => {
-    // window.onload = function() {
-    var editicon = document.getElementById("editicon");
-    var textedit = document.getElementById("inputeditable");
-    editicon.onclick = function (e) {
-      textedit.contentEditable = true;
-      textedit.focus();
-      $("#editicon").css({ display: "none" });
-    };
-
-    textedit.onmouseout = function () {
-      textedit.contentEditable = false;
-      $("#editicon").css({ display: "block" });
-    };
-    // }
-  };
-
   return (
-    <>
+    <div style={{ backgroundColor: "#fffff0" }}>
       {isLoading ? <Loader /> : ""}
       <Navigation isEdit={true} />
       <PasswordPopup
@@ -144,7 +143,9 @@ const Profile = () => {
             <img
               width="200px"
               height="200px"
-              src={profile ? profile : userImage}
+              src={`${BASE_API_URL}/auth/get-profilepic/${
+                currentUser ? currentUser._id : ""
+              }`}
               style={{ borderRadius: "20px" }}
             />
           </div>
@@ -173,12 +174,27 @@ const Profile = () => {
           <Col span={24}>
             <Row>
               <Col span={5}>
-                <p style={{ fontSize: "18px", marginBottom: "0px  " }}>
-                  {user.name ? user.name : "Full Name"}
-                </p>
+                <Input
+                  style={{
+                    borderBottom: `${
+                      showFullName == true ? "1px solid rgb(196, 196, 196)" : ""
+                    }`,
+                  }}
+                  type="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  size="large"
+                  className="site-form-item-fullname"
+                  disabled={showFullName ? false : true}
+                  placeholder="Full Name"
+                />
               </Col>
               <Col span={12}>
-                <img src={edit} onClick={NameInput} />
+                <img
+                  src={edit}
+                  style={{ display: `${showFullName ? "none" : ""}` }}
+                  onClick={() => setShowFullName(true)}
+                />
               </Col>
               <Divider style={{ color: "#C4C4C4" }} />
             </Row>
@@ -213,7 +229,7 @@ const Profile = () => {
           >
             Email Address
           </h1>
-          <p>{user.email}</p>
+          <p>{currentUser ? currentUser.email : ""}</p>
           <Divider style={{ color: "#C4C4C4" }} />
         </Col>
 
@@ -231,81 +247,122 @@ const Profile = () => {
           {showChangePassword ? (
             <>
               {" "}
-              <div style={{ width: "50%", marginBottom: "20px" }}>
-                <Input
-                  style={{
-                    fontSize: "21px",
-                    padding: "9px 9px 9px 19px",
-                    borderRadius: "7px",
-                    width: "345px",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    backgroundColor: "#C9E3E1",
-                  }}
-                  type="password"
-                  required
-                  value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
-                  size="large"
-                  className="site-form-item-icon1"
-                  prefix={<img src={PasswordLock} />}
-                  placeholder="Current Password"
-                />
-                <Input
-                  style={{
-                    fontSize: "21px",
-                    padding: "9px 9px 9px 19px",
-                    borderRadius: "7px",
-                    width: "345px",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    backgroundColor: "#C9E3E1",
-                    marginTop: "14px",
-                  }}
-                  required
-                  type="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  size="large"
-                  className="site-form-item-icon1"
-                  prefix={<img src={PasswordLock} />}
-                  placeholder="New Password"
-                />
-                <p
-                  style={{
-                    fontSize: "12px",
-                    color: "#C9E3E1",
-                    marginBottom: "3px",
-                    marginTop: "5px",
-                  }}
-                >
-                  Use 8 or more characters with a mix of letters, numbers and
-                  symbols
-                </p>
-                <Input
-                  style={{
-                    fontSize: "21px",
-                    padding: "9px 9px 9px 19px",
-                    borderRadius: "7px",
-                    width: "345px",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    backgroundColor: "#C9E3E1",
-                    marginTop: "14px",
-                  }}
-                  type="password"
-                  required
-                  value={confirmNewPassword}
-                  onChange={(e) => setConfirmNewPassword(e.target.value)}
-                  size="large"
-                  className="site-form-item-icon1"
-                  prefix={<img src={PasswordLock} />}
-                  placeholder="Confirm Password"
-                />
-              </div>
-              <CustomButton btnWidth={"150px"} onClick={handleChangePassword}>
-                Change Password
-              </CustomButton>
+              <Form
+                name="normal_login"
+                className="login-form"
+                initialValues={{ remember: true }}
+                onFinish={handleChangePassword}
+              >
+                <div style={{ width: "50%", marginBottom: "20px" }}>
+                  <Form.Item
+                    name="CurrentPassword"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your Current Password",
+                      },
+                    ]}
+                  >
+                    <Input.Password
+                      style={{
+                        fontSize: "21px",
+                        padding: "9px 9px 9px 19px",
+                        borderRadius: "7px",
+                        width: "345px",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        backgroundColor: "#C9E3E1",
+                      }}
+                      type="password"
+                      // required
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      size="large"
+                      className="site-form-item-icon1"
+                      prefix={<img src={PasswordLock} />}
+                      placeholder="Current Password"
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    name="NewPassword"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your New Password",
+                      },
+                    ]}
+                  >
+                    <Input.Password
+                      style={{
+                        fontSize: "21px",
+                        padding: "9px 9px 9px 19px",
+                        borderRadius: "7px",
+                        width: "345px",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        backgroundColor: "#C9E3E1",
+                        marginTop: "-5px",
+                      }}
+                      // required
+                      type="password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      size="large"
+                      className="site-form-item-icon1"
+                      prefix={<img src={PasswordLock} />}
+                      placeholder="New Password"
+                    />
+                  </Form.Item>
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      color: "#C9E3E1",
+                      marginBottom: "3px",
+                      marginTop: "-16px",
+                    }}
+                  >
+                    Use 8 or more characters with a mix of letters, numbers and
+                    symbols
+                  </p>
+
+                  <Form.Item
+                    name="ConfirmPassword"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your Confirm Password",
+                      },
+                    ]}
+                  >
+                    <Input.Password
+                      style={{
+                        fontSize: "21px",
+                        padding: "9px 9px 9px 19px",
+                        borderRadius: "7px",
+                        width: "345px",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        backgroundColor: "#C9E3E1",
+                        marginTop: "10px",
+                      }}
+                      type="password"
+                      // required
+                      value={confirmNewPassword}
+                      onChange={(e) => setConfirmNewPassword(e.target.value)}
+                      size="large"
+                      className="site-form-item-icon1"
+                      prefix={<img src={PasswordLock} />}
+                      placeholder="Confirm Password"
+                    />
+                  </Form.Item>
+                </div>
+
+                <Form.Item>
+                  <CustomButton btnWidth={"150px"}>
+                    Change Password
+                  </CustomButton>
+                </Form.Item>
+              </Form>
             </>
           ) : (
             <CustomButton
@@ -342,15 +399,18 @@ const Profile = () => {
         <Col span={6}>
           <CustomButton
             onClick={() => history.push("/worksheet")}
-            btnWidth="100px"
+            btnWidth="110px"
             radius="20px"
+            btnHeight="39px"
           >
             Cancel
           </CustomButton>
 
           <button
             style={{
-              width: `100px`,
+              fontWeight: "bold",
+              width: `110px`,
+              height: "39px",
               padding: "6px 0",
               marginLeft: "4px",
               backgroundColor: "#429F97",
@@ -360,13 +420,22 @@ const Profile = () => {
               marginLeft: "20px",
               cursor: "pointer",
             }}
+            onClick={handleUpdateProfile}
           >
             Save
           </button>
         </Col>
       </Row>
-    </>
+    </div>
   );
 };
 
-export default Profile;
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateCurrentUser: (user) => dispatch(fetchCurrentUser(user)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Divider, Button } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import Ourzinelogo from "../../Image/ourzinelogo.svg";
@@ -7,16 +7,25 @@ import EditSquareGreen from "../../Image/EditSquareGreen.svg";
 import { LocalStorage } from "../../utils";
 import "./Navigation.css";
 import { useHistory } from "react-router-dom";
+import { BASE_API_URL } from "../../services/domain";
+import { createStructuredSelector } from "reselect";
+import { selectCurrentUser } from "../../redux/selectors/auth";
+import { connect } from "react-redux";
 
-const Navigation = ({ isEdit }) => {
-  const user = JSON.parse(localStorage.getItem("USER"));
-
+const Navigation = ({ isEdit, currentUser ,fullName}) => {
+  const [name, setName] = useState('')
   const history = useHistory();
 
   const handleLogout = () => {
     LocalStorage.ClearLocalstorage();
     history.push("/signin");
   };
+
+  
+  useEffect(() => {
+    setName(currentUser ? currentUser.name : "")
+  }, [currentUser]) 
+
 
   return (
     <div style={{ backgroundColor: "#fffff0" }}>
@@ -51,7 +60,7 @@ const Navigation = ({ isEdit }) => {
           <div class="dropdown">
             <button class="dropbtn">
               <img
-                src={`http://localhost:8080/auth/get-profilepic/${user._id}`}
+                src={`${BASE_API_URL}/auth/get-profilepic/${currentUser ? currentUser._id : ""}`}
                 style={{
                   height: "50px",
                   borderRadius: "40px",
@@ -66,7 +75,7 @@ const Navigation = ({ isEdit }) => {
               <p>
                 <b style={{ color: "#429f97" }}>Name</b>
                 <br />
-                {user.name}
+                {currentUser ? currentUser.name : ""}
               </p>{" "}
               <Divider className="divider1" />
               <a onClick={() => history.push("/profile")}>
@@ -86,4 +95,8 @@ const Navigation = ({ isEdit }) => {
   );
 };
 
-export default Navigation;
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+});
+
+export default connect(mapStateToProps, null)(Navigation);

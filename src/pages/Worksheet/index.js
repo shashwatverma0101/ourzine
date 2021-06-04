@@ -61,7 +61,6 @@ import Loader from "../../components/loader/Loader";
 import { useHistory } from "react-router-dom";
 import DeleteModal from "../../components/modal/DeleteModal";
 
-
 const { Header, Sider, Content } = Layout;
 const menu = (
   <Menu>
@@ -90,8 +89,8 @@ const Worksheet = () => {
   const [resetSheet, setResetSheet] = useState(false);
   const [worksheetId, setWorksheetId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false)
-  const [showDeleteSheetModal, setShowDeleteSheetModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
+  const [showDeleteSheetModal, setShowDeleteSheetModal] = useState(false);
   const history = useHistory();
 
   // const [checkDelete, setDeleteCheck] = useState(false)
@@ -192,6 +191,7 @@ const Worksheet = () => {
           setSheet(res.data.worksheet.para);
           setTotalSlide(res.data.worksheet.para.length + 1);
           setWorksheetId(res.data.worksheet._id);
+          setOption("edit");
         }
       })
       .catch((e) => {
@@ -201,18 +201,15 @@ const Worksheet = () => {
       });
   };
 
-
   const handleDeleteSlide = () => {
-     setShowModal(false)
-      setResetSheet(!resetSheet);
-      setCurrentSlide(currentSlide - 1);
-      setTotalSlide(totalSlide - 1);
-      setOption("deleteSheet");
-      setSheet([
-        ...sheet.filter((slides) => slides.slide !== currentSlide),
-      ]);
-    
-  }
+    setShowModal(false);
+    setResetSheet(!resetSheet);
+    setCurrentSlide(currentSlide - 1);
+    setTotalSlide(totalSlide - 1);
+    setSheet([...sheet.filter((slides) => slides.slide !== currentSlide)]);
+
+    setOption("edit");
+  };
 
   const handleWorksheetDelete = () => {
     if (!worksheetId) {
@@ -226,14 +223,15 @@ const Worksheet = () => {
       setTotalSlide(1);
       setResetSheet(false);
       setWorksheetId("");
-      setShowDeleteSheetModal(false)
+      setShowDeleteSheetModal(false);
+      setOption("edit");
       return;
     }
     setIsLoading(true);
     worksheet
       .deleteWorksheet(worksheetId)
       .then((res) => {
-        setShowDeleteSheetModal(false)
+        setShowDeleteSheetModal(false);
         setIsLoading(false);
         if (res.data.result === "notFound")
           return toast.error("Worksheet Not Found");
@@ -248,6 +246,7 @@ const Worksheet = () => {
           setTotalSlide(1);
           setResetSheet(false);
           setWorksheetId("");
+          setOption("edit");
         }
       })
       .catch((e) => {
@@ -266,34 +265,38 @@ const Worksheet = () => {
     };
   };
 
-
   return (
     <>
       {isLoading ? <Loader /> : ""}
       <Navigation />
       <DeleteModal
         onAccept={handleDeleteSlide}
-        onReject = {() => setShowModal(false)}
+        onReject={() => {
+          setShowModal(false);
+          setOption("edit");
+
+        }}
         msg1="Are you sure you want to remove page?"
         msg2="You will loose all the edits done on this page."
         btnTxt1="Cancel"
         btnTxt2="Delete"
-        showModal= {showModal}
-        
+        showModal={showModal}
       />
-       <DeleteModal
+      <DeleteModal
         onAccept={handleWorksheetDelete}
-        onReject = {() => setShowDeleteSheetModal(false)}
+        onReject={() => {
+          setShowDeleteSheetModal(false);
+          setOption("edit");
+        }}
         msg1="Are you sure you want to delete document?"
         msg2="You no longer would be able to restore this document"
         btnTxt1="Cancel"
         btnTxt2="Delete"
-        showModal= {showDeleteSheetModal}
-        
+        showModal={showDeleteSheetModal}
       />
 
       <PrintPopup sheet={sheet} defaultSheet={defaultSheet} />
-      <Layout style={{ height: "890px", display: "flex" }}>
+      <Layout style={{ height: "890px", display: "flex", backgroundColor : "#fffff0" }}>
         <div id="mainleftnav">
           <button
             className={`leftcontents ${option === "edit" ? "active" : ""}`}
@@ -341,7 +344,7 @@ const Worksheet = () => {
               defaultSheet.title || defaultSheet.subtitle ? false : true
             }
             onClick={() => {
-              setOption("addSheet");
+              setOption("edit");
               setTotalSlide(totalSlide + 1);
               setSheet([...sheet, { slide: totalSlide + 1, para: "" }]);
             }}
@@ -372,8 +375,10 @@ const Worksheet = () => {
               option === "deleteSheet" ? "active" : ""
             }`}
             onClick={() => {
-              if (currentSlide !== 1)
-              setShowModal(true)
+              if (currentSlide !== 1) {
+                setOption("deleteSheet");
+                setShowModal(true);
+              }
             }}
           >
             <img
@@ -426,7 +431,7 @@ const Worksheet = () => {
             className={`leftcontents ${option === "delete" ? "active" : ""}`}
             onClick={() => {
               setOption("delete");
-              setShowDeleteSheetModal(true)
+              setShowDeleteSheetModal(true);
             }}
             disabled={
               defaultSheet.title || defaultSheet.subtitle ? false : true
@@ -446,7 +451,6 @@ const Worksheet = () => {
                   defaultSheet.title || defaultSheet.subtitle ? "" : "#429f97"
                 }`,
               }}
-
             >
               {" "}
               Delete
@@ -536,7 +540,7 @@ const Worksheet = () => {
           <div
             style={{
               width: "100%",
-              backgroundColor: "#f0f2f5",
+              backgroundColor: "#fffff0",
               display: "flex",
               // marginTop: "-35px",
             }}

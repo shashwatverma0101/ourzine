@@ -21,18 +21,18 @@ const Resetpassword = ({ match }) => {
   const history = useHistory()
 
   const handleResetPassword = () => {
-    if(password !== confirmPassword) return toast.error("Password and Confirm Password should be same")
+    if(password !== confirmPassword) return toast.error("Password and Confirm Password should matched")
     setIsLoading(true);
     auth
       .resetPassword({ token: match.params.token, newPassword: password })
       .then((res) => {
         setIsLoading(false)
         if (res.data.result === false)
-          return toast.error("Please Verify your email");
+          return toast.error("Please verify your email");
         if (res.data.result === "error")
           return toast.error("Something went wrong");
         if (res.data.result === true) {
-          toast.success("Changed Password Successfully");
+          toast.success("Password changed successfully");
           history.push('/signin')
         }
       })

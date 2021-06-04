@@ -3,8 +3,9 @@ import "./PrintPopup.css";
 import * as $ from "jquery";
 import { Row, Col, Button, Form, Input, Space } from "antd";
 import "../Worksheet.css";
+import { truncate } from "../../../utils/utils";
 
-const PrintPopup = ({sheet, defaultSheet}) => {
+const PrintPopup = ({ sheet, defaultSheet }) => {
   const popupfunc = () => {
     const modal = document.getElementById("myModal");
 
@@ -34,15 +35,41 @@ const PrintPopup = ({sheet, defaultSheet}) => {
                 </div>
               </li>
 
-              {sheet?.map((slides) => (
-                <li key = {slides.slide}>
-                  <div className="generatelayout">
-                    <p style={{ textAlign: "left", whiteSpace: "pre-line" }}>
-                        {slides.para}
-                    </p>
-                  </div>
-                </li>
-              ))}
+              <li>
+                <div className="generatelayout">
+                  <p style={{ textAlign: "left", whiteSpace: "pre-line" }}></p>
+                </div>
+              </li>
+
+              {sheet?.map((slides) => {
+                let length = slides.para.split(" ").length;
+                // let firstSlideTotalWords = Math.ceil(length / 2);
+                let firstSlideTotalWords = 200;
+                let secondSlideTotalWords = length - firstSlideTotalWords;
+                let breackSlide = [
+                  {
+                    text: truncate(0, slides.para, firstSlideTotalWords),
+                    id: Math.random(),
+                  },
+                  {
+                    text: truncate(
+                      firstSlideTotalWords,
+                      slides.para,
+                      secondSlideTotalWords
+                    ),
+                    id: Math.random(),
+                  },
+                ];
+                return breackSlide.map((slide) => (
+                  <li key={slide.id}>
+                    <div className="generatelayout">
+                      <p style={{ textAlign: "left", whiteSpace: "pre-line" }}>
+                        {slide.text}
+                      </p>
+                    </div>
+                  </li>
+                ));
+              })}
             </ul>
           </div>
         </div>

@@ -37,8 +37,7 @@ const DeleteModal = ({ msg1, msg2, btnTxt1, btnTxt2 ,showModal , onAccept, onRej
                   backgroundColor: "#FFFFF0",
                   borderColor: "#429f97",
                   borderRadius: "12px",
-                  marginLeft: "20px",
-                  float: "left",
+                  marginRight: "18px",
                 }}
                 type="primary"
                 htmlType="submit"
@@ -58,8 +57,6 @@ const DeleteModal = ({ msg1, msg2, btnTxt1, btnTxt2 ,showModal , onAccept, onRej
                   backgroundColor: "#429f97",
                   borderColor: "#429f97",
                   borderRadius: "12px",
-                  marginRight: "20px",
-                  float: "right",
                 }}
                 type="primary"
                 htmlType="submit"

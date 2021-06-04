@@ -9,14 +9,20 @@ import {
 // import './Signinstyle.css';
 import Ourzinelogo from "../../../Image/Rorshoklogowhite.svg";
 import Girlvector from "../../../Image/Frame Girl.svg";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import auth from "../../../services/auth";
 import Loader from "../../../components/loader/Loader";
 import { toast } from "react-toastify";
+import { isLogin } from "../../../utils";
+
+
 
 const Forgotpassword = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const history = useHistory()
+
+  if(isLogin()) history.push('/worksheet')
 
   const handleForgotPassword = () => {
     setIsLoading(true);
@@ -25,11 +31,11 @@ const Forgotpassword = () => {
       .then((res) => {
         setIsLoading(false);
         if (res.data.result === "notFound")
-          return toast.error("Email Not Found");
+          return toast.error("Please enter registered email");
         if (res.data.result === "error")
           return toast.error("Something went wrong");
         if (res.data.result === true) {
-          toast.success("Success");
+          toast.success("Reset Password link has been sent to registered email id");
         }
       })
       .catch((e) => {

@@ -13,7 +13,7 @@ import { Link, useHistory } from "react-router-dom";
 import { apiPost } from "../../../utils/axios.js";
 import auth from "../../../services/auth";
 import { toast } from "react-toastify";
-import { LocalStorage } from "../../../utils";
+import { isLogin, LocalStorage } from "../../../utils";
 import Loader from "../../../components/loader/Loader";
 
 const Signin = () => {
@@ -22,6 +22,8 @@ const Signin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
 
+  if(isLogin()) history.push('/worksheet')
+
   const handleSignIn = () => {
     setIsLoading(true);
     auth
@@ -29,16 +31,15 @@ const Signin = () => {
       .then((res) => {
         setIsLoading(false);
         if (res.data.result === "notExist")
-          return toast.error("Email Not Exist");
+          return toast.error("This email does not exist");
         if (res.data.result === "invalid")
-          return toast.error("Invalid Password");
+          return toast.error("Password is invalid");
         if (res.data.result === "error")
           return toast.error("Something went wrong");
 
         if (res.data.result === true) {
-          if(!res.data.user.isVerified) return toast.error("Please Verfiy Your Account")
+          if(!res.data.user.isVerified) return toast.error("Please Verify Your Account")
           LocalStorage.StoreToken(res.data.user.token);
-          localStorage.setItem("USER", JSON.stringify(res.data.user));
           history.push("/worksheet");
         }
       })

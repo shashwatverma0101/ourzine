@@ -14,6 +14,7 @@ import { apiPost } from "../../../utils/axios.js";
 import auth from "../../../services/auth";
 import { toast } from "react-toastify";
 import Loader from "../../../components/loader/Loader";
+import { isLogin } from "../../../utils";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -21,6 +22,8 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
 
+  if(isLogin()) history.push('/worksheet')
+  
   const handleSignUp = (e) => {
     setIsLoading(true);
     auth
@@ -28,10 +31,13 @@ const Signup = () => {
       .then((res) => {
         setIsLoading(false);
         if (res.data.result === "exist")
-          return toast.error("Email Already Exist");
+          return toast.error("This email already exist");
         if (res.data.result === "error")
           return toast.error("Something went wrong");
-        if (res.data.result === true) return history.push("/signin");
+        if (res.data.result === true) {
+          toast.success("Registered Successfully")
+           history.push("/signin");
+          }
       })
       .catch((e) => {
         setIsLoading(false);
