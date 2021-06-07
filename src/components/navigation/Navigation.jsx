@@ -12,8 +12,8 @@ import { createStructuredSelector } from "reselect";
 import { selectCurrentUser } from "../../redux/selectors/auth";
 import { connect } from "react-redux";
 
-const Navigation = ({ isEdit, currentUser ,fullName}) => {
-  const [name, setName] = useState('')
+const Navigation = ({ isEdit, currentUser, fullName }) => {
+  const [name, setName] = useState("");
   const history = useHistory();
 
   const handleLogout = () => {
@@ -21,11 +21,9 @@ const Navigation = ({ isEdit, currentUser ,fullName}) => {
     history.push("/signin");
   };
 
-  
   useEffect(() => {
-    setName(currentUser ? currentUser.name : "")
-  }, [currentUser]) 
-
+    setName(currentUser ? currentUser.name : "");
+  }, [currentUser]);
 
   return (
     <div style={{ backgroundColor: "#fffff0" }}>
@@ -60,22 +58,28 @@ const Navigation = ({ isEdit, currentUser ,fullName}) => {
           <div class="dropdown">
             <button class="dropbtn">
               <img
-                src={`${BASE_API_URL}/auth/get-profilepic/${currentUser ? currentUser._id : ""}`}
+                src={`${BASE_API_URL}/auth/get-profilepic/${
+                  currentUser ? currentUser._id : ""
+                }`}
                 style={{
                   height: "50px",
                   borderRadius: "40px",
                   marginRight: "5px",
                 }}
               />
-              Name <DownOutlined />
+              {currentUser ? currentUser.name : ""}
+              <DownOutlined />
               <i class="fa fa-caret-down"></i>
             </button>
             <div className="dropdown-content">
               <img className="profileimg" src={Ourzinelogo} />
               <p>
-                <b style={{ color: "#429f97" }}>Name</b>
+                <b style={{ color: "#429f97" }}>
+                  {" "}
+                  {currentUser ? currentUser.name : ""}
+                </b>
                 <br />
-                {currentUser ? currentUser.name : ""}
+                {currentUser ? currentUser.email : ""}
               </p>{" "}
               <Divider className="divider1" />
               <a onClick={() => history.push("/profile")}>

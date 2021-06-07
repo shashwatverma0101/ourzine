@@ -107,8 +107,7 @@ const Profile = ({ currentUser,updateCurrentUser }) => {
         if (res.data.result === "error")
           return toast.error("Something went wrong");
         if (res.data.result === true) {
-          currentUser.name = name
-          updateCurrentUser(currentUser)
+          updateCurrentUser(res.data.user)
           setShowFullName(false);
           history.push('/worksheet')
         }
@@ -157,7 +156,7 @@ const Profile = ({ currentUser,updateCurrentUser }) => {
                 fontWeight: "bold",
                 fontSize: "24px",
                 marginTop: "16px",
-              }}
+              }}  
             >
               Your Account
             </h1>
@@ -186,7 +185,7 @@ const Profile = ({ currentUser,updateCurrentUser }) => {
                   size="large"
                   className="site-form-item-fullname"
                   disabled={showFullName ? false : true}
-                  placeholder="Full Name"
+                  placeholder={`${showFullName ? "" : "Full Name"} `}
                 />
               </Col>
               <Col span={12}>
