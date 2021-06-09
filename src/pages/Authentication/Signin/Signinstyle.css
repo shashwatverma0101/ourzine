@@ -65,3 +65,7 @@
     box-shadow:unset;
   }
  
+  input:-webkit-autofill{
+    -webkit-text-fill-color:#429f97 !important;
+    -webkit-background-clip: text;
+   }

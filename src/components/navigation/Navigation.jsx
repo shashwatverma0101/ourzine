@@ -1,25 +1,46 @@
 import React, { useEffect, useState } from "react";
 import { Divider, Button } from "antd";
 import { DownOutlined } from "@ant-design/icons";
-import Ourzinelogo from "../../Image/ourzinelogo.svg";
+import Ourzinelogo from "../../Image/Rorshoklogoblack.svg";
 import Logout from "../../Image/Logout.svg";
 import EditSquareGreen from "../../Image/EditSquareGreen.svg";
-import { LocalStorage } from "../../utils";
+import { isLogin, LocalStorage } from "../../utils";
 import "./Navigation.css";
 import { useHistory } from "react-router-dom";
 import { BASE_API_URL } from "../../services/domain";
 import { createStructuredSelector } from "reselect";
 import { selectCurrentUser } from "../../redux/selectors/auth";
 import { connect } from "react-redux";
+import auth from "../../services/auth";
+import { toast } from "react-toastify";
+import { fetchCurrentUser } from "../../redux/actions/auth";
 
-const Navigation = ({ isEdit, currentUser, fullName }) => {
+const Navigation = ({ isEdit, currentUser, fetchCurrentUser }) => {
   const [name, setName] = useState("");
   const history = useHistory();
 
   const handleLogout = () => {
     LocalStorage.ClearLocalstorage();
+    fetchCurrentUser(null);
     history.push("/signin");
   };
+
+  useEffect(() => {
+    if (isLogin())
+      auth
+        .getProfile()
+        .then((res) => {
+          if (res.data.result === "notFound") return toast.error("Not Found");
+          if (res.data.result === "error")
+            return toast.error("Something went wrong");
+          if (res.data.result === true) {
+            fetchCurrentUser(res.data.user);
+          }
+        })
+        .catch((e) => {
+          toast.error("Something went wrong");
+        });
+  }, []);
 
   useEffect(() => {
     setName(currentUser ? currentUser.name : "");
@@ -27,7 +48,7 @@ const Navigation = ({ isEdit, currentUser, fullName }) => {
 
   return (
     <div style={{ backgroundColor: "#fffff0" }}>
-      <div class="navbar">
+      <div className="navbar">
         <img src={Ourzinelogo} style={{ height: "76px" }} />
         <div>
           {isEdit ? (
@@ -55,8 +76,8 @@ const Navigation = ({ isEdit, currentUser, fullName }) => {
           ) : (
             ""
           )}
-          <div class="dropdown">
-            <button class="dropbtn">
+          <div className="dropdown">
+            <button className="dropbtn">
               <img
                 src={`${BASE_API_URL}/auth/get-profilepic/${
                   currentUser ? currentUser._id : ""
@@ -69,10 +90,15 @@ const Navigation = ({ isEdit, currentUser, fullName }) => {
               />
               {currentUser ? currentUser.name : ""}
               <DownOutlined />
-              <i class="fa fa-caret-down"></i>
+              <i className="fa fa-caret-down"></i>
             </button>
             <div className="dropdown-content">
-              <img className="profileimg" src={Ourzinelogo} />
+              <img
+                className="profileimg"
+                src={`${BASE_API_URL}/auth/get-profilepic/${
+                  currentUser ? currentUser._id : ""
+                }`}
+              />
               <p>
                 <b style={{ color: "#429f97" }}>
                   {" "}
@@ -103,4 +129,8 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
 });
 
-export default connect(mapStateToProps, null)(Navigation);
+export const mapDispatchToProps = (dispatch) => ({
+  fetchCurrentUser: (user) => dispatch(fetchCurrentUser(user)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

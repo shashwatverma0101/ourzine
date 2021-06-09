@@ -1,65 +1,46 @@
 import React, { useEffect, useState } from "react";
-import {
-  Layout,
-  Menu,
-  Divider,
-  Row,
-  Col,
-  Button,
-  Form,
-  Input,
-  Space,
-} from "antd";
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  UserOutlined,
-  CaretLeftOutlined,
-  CaretRightOutlined,
-  VideoCameraOutlined,
-  FileAddOutlined,
-  FileExcelOutlined,
-  SaveOutlined,
-  QuestionCircleOutlined,
-  UploadOutlined,
-  DownOutlined,
-  EditOutlined,
-  LogoutOutlined,
-  DeleteOutlined,
-  PrinterOutlined,
-} from "@ant-design/icons";
+import { Layout, Menu } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import "./Worksheet.css";
 // import './leftnavigation.css';
-import Ourzinelogo from "../../Image/ourzinelogo.svg";
 import * as $ from "jquery";
 import "jquery-ui-bundle";
-import Edit from "../../Image/Edit Square.svg";
-import Print from "../../Image/Print.svg";
-import AddSheet from "../../Image/AddSheet.svg";
-import DeleteSheet from "../../Image/DeleteSheet.svg";
-import Save from "../../Image/Save.svg";
-import Delete from "../../Image/Delete.svg";
-import Help from "../../Image/Help.svg";
-import Ellipse from "../../Image/Ellipse 1.svg";
-import ArrowRight from "../../Image/Arrow-Right.svg";
-import ArrowLeft from "../../Image/Arrow-Left.svg";
-import EditSquareGreen from "../../Image/EditSquareGreen.svg";
-import Logout from "../../Image/Logout.svg";
-import Sliderleft from "../../Image/Sliderleft.svg";
+
 import Navigation from "../../components/navigation/Navigation";
-import DangerTriangle from "../../Image/DangerTriangle.svg";
+
 import worksheet from "../../services/worksheet";
 import { toast } from "react-toastify";
 import PrintPopup from "./components/PrintPopup";
-import PrintDisable from "../../Image/PrintDisable.svg";
-import AddSheetDisable from "../../Image/AddSheetDisable.svg";
-import DeleteSheetDisable from "../../Image/DeleteSheetDisable.svg";
-import SaveDisable from "../../Image/SaveDisable.svg";
-import DeleteDisable from "../../Image/DeleteDisable.svg";
-import HelpDisable from "../../Image/HelpDisable.svg";
+
 import Loader from "../../components/loader/Loader";
 import { useHistory } from "react-router-dom";
 import DeleteModal from "../../components/modal/DeleteModal";
+import {
+  ZoomPlus,
+  ZoomMinus,
+  ZoomSlider,
+  PrintDisable,
+  AddSheetDisable,
+  DeleteSheetDisable,
+  SaveDisable,
+  DeleteDisable,
+  HelpDisable,
+  DangerTriangle,
+  Edit,
+  Print,
+  AddSheet,
+  DeleteSheet,
+  Save,
+  Delete,
+  Help,
+  Ellipse,
+  ArrowRight,
+  ArrowLeft,
+  EditSquareGreen,
+  Logout,
+  Sliderleft,
+  Ourzinelogo,
+} from "../../Image";
 
 const { Header, Sider, Content } = Layout;
 const menu = (
@@ -85,15 +66,13 @@ const Worksheet = () => {
   });
   const [sheet, setSheet] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(1);
-  const [totalSlide, setTotalSlide] = useState(1);
+  const [totalSlide, setTotalSlide] = useState(2);
   const [resetSheet, setResetSheet] = useState(false);
   const [worksheetId, setWorksheetId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showDeleteSheetModal, setShowDeleteSheetModal] = useState(false);
   const history = useHistory();
-
-  // const [checkDelete, setDeleteCheck] = useState(false)
 
   const toggle = () => {
     setCollapsed(!collapsed);
@@ -121,7 +100,7 @@ const Worksheet = () => {
             subtitle: res.data.worksheet.subtitle,
           });
           setSheet(res.data.worksheet.para);
-          setTotalSlide(res.data.worksheet.para.length + 1);
+          setTotalSlide(res.data.worksheet.para.length + 2);
           setWorksheetId(res.data.worksheet._id);
         }
       })
@@ -132,21 +111,14 @@ const Worksheet = () => {
   }, []);
 
   useEffect(() => {
-    let slideNumber = 1;
+    let slideNumber = 2;
     setSheet([
       ...sheet.map((slides) => {
         slideNumber++;
         return { slide: slideNumber, para: slides.para };
       }),
     ]);
-    // setDeleteCheck(true)
   }, [resetSheet]);
-
-  // useEffect(() => {
-  //   if(checkDelete && worksheetId){
-  //     handleSave()
-  //   }
-  // }, [checkDelete])
 
   const sliderchange = () => {
     toggle();
@@ -156,14 +128,27 @@ const Worksheet = () => {
   };
 
   const handleChangeInput = (slide, event) => {
-    const newSheet = sheet.map((i) => {
-      if (slide == i.slide) {
-        i[event.target.name] = event.target.value;
-      }
-      return i;
-    });
+    if (event.target.value.length <= 500) {
+      const newSheet = sheet.map((i) => {
+        if (slide == i.slide) {
+          i[event.target.name] = event.target.value;
+        }
+        return i;
+      });
 
-    setSheet(newSheet);
+      setSheet(newSheet);
+    }
+    if (event.target.value.length >= 500) {
+      handleAddSheet();
+    }
+  };
+
+  const handleAddSheet = () => {
+    if (totalSlide < 64) {
+      setTotalSlide(totalSlide + 1);
+      setCurrentSlide(currentSlide + 1);
+      setSheet([...sheet, { slide: totalSlide + 1, para: "" }]);
+    }
   };
 
   const handleSave = () => {
@@ -189,7 +174,7 @@ const Worksheet = () => {
             subtitle: res.data.worksheet.subtitle,
           });
           setSheet(res.data.worksheet.para);
-          setTotalSlide(res.data.worksheet.para.length + 1);
+          setTotalSlide(res.data.worksheet.para.length + 2);
           setWorksheetId(res.data.worksheet._id);
           setOption("edit");
         }
@@ -220,7 +205,7 @@ const Worksheet = () => {
       });
       setSheet([]);
       setCurrentSlide(1);
-      setTotalSlide(1);
+      setTotalSlide(2);
       setResetSheet(false);
       setWorksheetId("");
       setShowDeleteSheetModal(false);
@@ -243,7 +228,7 @@ const Worksheet = () => {
           });
           setSheet([]);
           setCurrentSlide(1);
-          setTotalSlide(1);
+          setTotalSlide(2);
           setResetSheet(false);
           setWorksheetId("");
           setOption("edit");
@@ -254,6 +239,8 @@ const Worksheet = () => {
         toast.error("Something went wrong");
       });
   };
+
+  // const handleAdd
 
   const popupfunc = () => {
     var modal = document.getElementById("myModal");
@@ -274,7 +261,6 @@ const Worksheet = () => {
         onReject={() => {
           setShowModal(false);
           setOption("edit");
-
         }}
         msg1="Are you sure you want to remove page?"
         msg2="You will loose all the edits done on this page."
@@ -296,7 +282,9 @@ const Worksheet = () => {
       />
 
       <PrintPopup sheet={sheet} defaultSheet={defaultSheet} />
-      <Layout style={{ height: "890px", display: "flex", backgroundColor : "#fffff0" }}>
+      <Layout
+        style={{ height: "890px", display: "flex", backgroundColor: "#fffff0" }}
+      >
         <div id="mainleftnav">
           <button
             className={`leftcontents ${option === "edit" ? "active" : ""}`}
@@ -344,9 +332,11 @@ const Worksheet = () => {
               defaultSheet.title || defaultSheet.subtitle ? false : true
             }
             onClick={() => {
-              setOption("edit");
-              setTotalSlide(totalSlide + 1);
-              setSheet([...sheet, { slide: totalSlide + 1, para: "" }]);
+              if (totalSlide < 64) {
+                setOption("edit");
+                setTotalSlide(totalSlide + 1);
+                setSheet([...sheet, { slide: totalSlide + 1, para: "" }]);
+              }
             }}
           >
             <img
@@ -367,7 +357,8 @@ const Worksheet = () => {
               Add sheet
             </span>
           </button>
-          <button
+          {/* Delete slide when onClick {Old Figma Design} */}
+          {/* <button
             disabled={
               defaultSheet.title || defaultSheet.subtitle ? false : true
             }
@@ -399,7 +390,7 @@ const Worksheet = () => {
               {" "}
               Delete sheet
             </span>
-          </button>
+          </button> */}
           <button
             className={`leftcontents ${option === "save" ? "active" : ""}`}
             onClick={() => {
@@ -481,8 +472,21 @@ const Worksheet = () => {
             </span>
           </button>
         </div>
-        <div class="box">
-          <div class="box-inner">
+        <div className="box">
+          <div className="box-inner">
+            <div
+              style={{
+                fontWeight: "700",
+                marginTop: "5px",
+                marginLeft: "16px",
+                fontSize: "12px",
+                color: "#C9E3E1",
+                marginBottom: "-4px",
+              }}
+            >
+              {totalSlide}/64
+            </div>
+
             <ul
               style={{
                 height: "860px",
@@ -495,21 +499,59 @@ const Worksheet = () => {
             >
               <li onClick={() => setCurrentSlide(1)}>
                 <div className="small-left-layout">
-                  <h2 style={{ whiteSpace: "pre-line" }}>
-                    {defaultSheet.title}
+                  <h2 style={{ whiteSpace: "pre-line", fontWeight: "700" }}>
+                    {defaultSheet.title
+                      ? defaultSheet.title
+                      : "CLICK TO ADD TITLE"}
                   </h2>
-                  <p style={{ whiteSpace: "pre-line" }}>
-                    {defaultSheet.subtitle}
+                  <p style={{ whiteSpace: "pre-line", fontWeight: "400" }}>
+                    {defaultSheet.subtitle
+                      ? defaultSheet.subtitle
+                      : "CLICK TO ADD SUBTITLE"}
                   </p>
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "4px",
+                      width: "100%",
+                      marginLeft: "-6px",
+                    }}
+                  >
+                    FRONT COVER
+                  </div>
                 </div>
               </li>
+
+              <li onClick={() => setCurrentSlide(2)}>
+                <div className="small-left-layout">
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "4px",
+                      width: "100%",
+                      marginLeft: "-6px",
+                    }}
+                  >
+                    INSIDE FRONT COVER
+                  </div>{" "}
+                </div>
+              </li>
+
               {sheet?.map((slides) => (
                 <li
                   key={slides.slide}
                   onClick={() => setCurrentSlide(slides.slide)}
                 >
                   <div className="small-left-layout">
-                    <p style={{ textAlign: "left", whiteSpace: "pre-line" }}>
+                    <p
+                      className="left-layout-para"
+                      style={{
+                        textAlign: "left",
+                        whiteSpace: "pre-line",
+                        overflowY: "scroll",
+                        maxHeight: "175px",
+                      }}
+                    >
                       {slides.para}
                     </p>
                   </div>
@@ -575,16 +617,49 @@ const Worksheet = () => {
                   <textarea
                     name="limitedtextarea"
                     className="maintextarea"
+                    value={defaultSheet.subtitle}
+                    placeholder="Click to Add Subtitle"
+                    onKeyPress={(e) => {
+                      if (
+                        e.key === "Enter" &&
+                        (defaultSheet.title.length ||
+                          defaultSheet.subtitle.length)
+                      ) {
+                        handleAddSheet();
+                      }
+                    }}
                     onChange={(e) => {
                       setDefaultSheet({
                         ...defaultSheet,
                         subtitle: e.target.value,
                       });
                     }}
-                    value={defaultSheet.subtitle}
-                    placeholder="Click to Add Subtitle"
                   ></textarea>
                 </form>
+                <div style={{ textAlign: "center", marginTop: "-6px" }}>
+                  FRONT COVER
+                </div>
+                <div className="countcharacters">
+                  <span className="countchars">0</span>
+                  /500
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+
+            {currentSlide === 2 ? (
+              <div className="site-layout" style={{}}>
+                <form name="myform">
+                  <textarea
+                    name="limitedtextarea"
+                    className="maintextarea"
+                    disabled={true}
+                  ></textarea>
+                </form>
+                <div style={{ textAlign: "center", marginTop: "65px" }}>
+                  INSIDE FRONT COVER
+                </div>
                 <div className="countcharacters">
                   <span className="countchars">0</span>
                   /500
@@ -601,18 +676,32 @@ const Worksheet = () => {
                     <textarea
                       id={`#mytextarea-${slides.slide}`}
                       name="para"
+                      autoFocus
                       className="maintextarea-dynamic"
                       value={slides.para}
                       onChange={(e) => {
                         handleChangeInput(slides.slide, e);
                       }}
                       placeholder="text here"
+                      onKeyDown={(e) => {
+                        if (e.keyCode === 8 && !slides.para.length) {
+                          setShowModal(true);
+                        }
+                      }}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter" && slides.para.length > 500) {
+                          handleAddSheet();
+                        }
+                      }}
                       // maxlength = "15"
                     ></textarea>
                   </form>
+                  <div style={{ marginTop: "75px", textAlign: "center" }}>
+                    {slides.slide - 2}{" "}
+                  </div>
                   <div
                     className="countcharacters"
-                    style={{ marginTop: "130px" }}
+                    style={{ marginTop: "32px" }}
                   >
                     <span className="countchars">{slides.para.length}</span>
                     /500
@@ -623,14 +712,22 @@ const Worksheet = () => {
               )
             )}
 
-            <div
-              className="sidearrow1"
-              onClick={() => {
-                if (currentSlide <= sheet.length)
-                  setCurrentSlide(currentSlide + 1);
-              }}
-            >
-              <div className="rightarrow">
+            <div className="sidearrow1">
+              <div className="zoombuttons">
+                <img src={ZoomPlus} style={{ height: "23px" }} />
+                <img
+                  src={ZoomSlider}
+                  style={{ height: "10px", margin: "5px 5px 0px 5px" }}
+                />
+                <img src={ZoomMinus} style={{ height: "23px" }} />
+              </div>
+              <div
+                className="rightarrow"
+                onClick={() => {
+                  if (currentSlide <= sheet.length)
+                    setCurrentSlide(currentSlide + 1);
+                }}
+              >
                 <img src={Ellipse} />
                 <div>
                   <img src={ArrowRight} />

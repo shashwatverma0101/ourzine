@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Button, Form, Input, Space } from "antd";
 import {
   MailOutlined,
@@ -13,27 +13,32 @@ import { Link, useHistory } from "react-router-dom";
 import Loader from "../../../components/loader/Loader";
 import auth from "../../../services/auth";
 import { toast } from "react-toastify";
+import * as $ from "jquery";
+import { checkStrongPassword } from "../../../utils/utils";
 
 const Resetpassword = ({ match }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState("");
-  const history = useHistory()
+  const [weakPassword, setWeakPassword] = useState(false);
+  const history = useHistory();
 
   const handleResetPassword = () => {
-    if(password !== confirmPassword) return toast.error("Password and Confirm Password should matched")
+    if (weakPassword) return  
+    if (password !== confirmPassword)
+      return toast.error("Password and Confirm Password should matched");
     setIsLoading(true);
     auth
       .resetPassword({ token: match.params.token, newPassword: password })
       .then((res) => {
-        setIsLoading(false)
+        setIsLoading(false);
         if (res.data.result === false)
           return toast.error("Please verify your email");
         if (res.data.result === "error")
           return toast.error("Something went wrong");
         if (res.data.result === true) {
           toast.success("Password changed successfully");
-          history.push('/signin')
+          history.push("/signin");
         }
       })
       .catch((e) => {
@@ -41,6 +46,10 @@ const Resetpassword = ({ match }) => {
         toast.error("Something went wrong");
       });
   };
+
+  useEffect(() => {
+    $(".ant-input").css({ "background-color": "#c9e3e1", color: "#429f97" });
+  }, []);
 
   return (
     <Row>
@@ -78,7 +87,7 @@ const Resetpassword = ({ match }) => {
             <rect
               width="100%"
               height="960"
-              style={{ fill: "white", strokeWidth: "0", stroke: "rgb(0,0,0)" }}
+              style={{ fill: "#FFFFF0", strokeWidth: "0", stroke: "rgb(0,0,0)" }}
             />
           </svg>
           <div class="textcentered" style={{ width: "auto", top: "46%" }}>
@@ -99,7 +108,7 @@ const Resetpassword = ({ match }) => {
               name="normal_login"
               className="login-form"
               initialValues={{ remember: true }}
-              onFinish = {handleResetPassword}
+              onFinish={handleResetPassword}
             >
               <Form.Item
                 name="password"
@@ -116,11 +125,15 @@ const Resetpassword = ({ match }) => {
                     marginLeft: "auto",
                     marginRight: "auto",
                     backgroundColor: "#C9E3E1",
-                    
                   }}
-                  type = "password"
-                  value ={password}
-                  onChange = {(e) => setPassword(e.target.value)}
+                  type="password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    checkStrongPassword(e.target.value)
+                      ? setWeakPassword(false)
+                      : setWeakPassword(true);
+                  }}
                   size="large"
                   className="site-form-item-icon1"
                   prefix={
@@ -133,17 +146,17 @@ const Resetpassword = ({ match }) => {
                 />
               </Form.Item>
               <p
-                  style={{
-                    fontSize: "12px",
-                    color: "#C9E3E1",
-                    marginBottom: "20px",
-                    marginLeft : "15px",
-                    marginTop: "-20px",
-                  }}
-                >
-                  Use 8 or more characters with a mix of letters, numbers and
-                  symbols
-                </p>
+                style={{
+                  fontSize: "12px",
+                  color: `${weakPassword ? "#ff4d4f" : "#C9E3E1"}`,
+                  marginBottom: "20px",
+                  marginLeft: "15px",
+                  marginTop: "-20px",
+                }}
+              >
+                Use 8 or more characters with a mix of letters, numbers and
+                symbols
+              </p>
 
               <Form.Item
                 style={{ marginTop: "-5px", marginBottom: "30px" }}
@@ -154,7 +167,7 @@ const Resetpassword = ({ match }) => {
               >
                 <Input
                   size="large"
-                  type = "password"
+                  type="password"
                   style={{
                     fontSize: "21px",
                     padding: "9px 9px 9px 19px",
@@ -170,8 +183,8 @@ const Resetpassword = ({ match }) => {
                       style={{ color: "#429f97" }}
                     />
                   }
-                  value = {confirmPassword}
-                  onChange = {(e) => setConfirmPassword(e.target.value)}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   type="password"
                   placeholder="Confirm Password"
                 />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Button, Form, Input, Space } from "antd";
 import {
   MailOutlined,
@@ -15,16 +15,24 @@ import auth from "../../../services/auth";
 import { toast } from "react-toastify";
 import Loader from "../../../components/loader/Loader";
 import { isLogin } from "../../../utils";
+import * as $ from "jquery";
+import { checkStrongPassword } from "../../../utils/utils";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [weakPassword, setWeakPassword] = useState(false);
   const history = useHistory();
 
-  if(isLogin()) history.push('/worksheet')
-  
+  if (isLogin()) history.push("/worksheet");
+
+  useEffect(() => {
+    $(".ant-input").css({ "background-color": "#c9e3e1", color: "#429f97" });
+  }, []);
+
   const handleSignUp = (e) => {
+    if (weakPassword) return  
     setIsLoading(true);
     auth
       .signup({ email, password })
@@ -35,9 +43,9 @@ const Signup = () => {
         if (res.data.result === "error")
           return toast.error("Something went wrong");
         if (res.data.result === true) {
-          toast.success("Registered Successfully")
-           history.push("/signin");
-          }
+          toast.success("Registered Successfully");
+          history.push("/signin");
+        }
       })
       .catch((e) => {
         setIsLoading(false);
@@ -131,7 +139,7 @@ const Signup = () => {
             <rect
               width="100%"
               height="960"
-              style={{ fill: "white", strokeWidth: "0", stroke: "rgb(0,0,0)" }}
+              style={{ fill: "#FFFFF0", strokeWidth: "0", stroke: "rgb(0,0,0)" }}
             />
           </svg>
           <div class="textcentered" style={{ width: "auto", top: "41%" }}>
@@ -224,13 +232,18 @@ const Signup = () => {
                   }
                   type="password"
                   placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    checkStrongPassword(e.target.value)
+                      ? setWeakPassword(false)
+                      : setWeakPassword(true);
+                  }}
                 />
               </Form.Item>
               <p
                 style={{
                   fontSize: "11px",
-                  color: "#C9E3E1",
+                  color: `${weakPassword ? "#ff4d4f" : "#C9E3E1"}`,
                   marginTop: "-15px",
                 }}
               >
@@ -242,6 +255,7 @@ const Signup = () => {
                 <p
                   style={{
                     marginTop: "-10px",
+                    marginLeft : "45px",
                     color: "#C9E3E1",
                     fontSize: "15px",
                     fontWeight: "500",

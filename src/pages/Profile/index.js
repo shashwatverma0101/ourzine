@@ -19,8 +19,9 @@ import { createStructuredSelector } from "reselect";
 import { selectCurrentUser } from "../../redux/selectors/auth";
 import { connect } from "react-redux";
 import { fetchCurrentUser } from "../../redux/actions/auth";
+import { checkStrongPassword } from "../../utils/utils";
 
-const Profile = ({ currentUser,updateCurrentUser }) => {
+const Profile = ({ currentUser, updateCurrentUser }) => {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -31,6 +32,7 @@ const Profile = ({ currentUser,updateCurrentUser }) => {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [showFullName, setShowFullName] = useState(false);
+  const [weakPassword, setWeakPassword] = useState(false);
 
   useEffect(() => {
     if (currentUser) setName(currentUser.name);
@@ -64,7 +66,7 @@ const Profile = ({ currentUser,updateCurrentUser }) => {
           return toast.error("Something went wrong");
         if (res.data.result === true) {
           LocalStorage.ClearLocalstorage();
-          updateCurrentUser(null)
+          updateCurrentUser(null);
           history.push("/");
         }
       })
@@ -75,6 +77,7 @@ const Profile = ({ currentUser,updateCurrentUser }) => {
   };
 
   const handleChangePassword = () => {
+    if (weakPassword) return;
     if (newPassword !== confirmNewPassword)
       return toast.error("Password and Confirm Password should matched");
     setIsLoading(true);
@@ -107,15 +110,21 @@ const Profile = ({ currentUser,updateCurrentUser }) => {
         if (res.data.result === "error")
           return toast.error("Something went wrong");
         if (res.data.result === true) {
-          updateCurrentUser(res.data.user)
+          updateCurrentUser(res.data.user);
           setShowFullName(false);
-          history.push('/worksheet')
+          history.push("/worksheet");
         }
       })
       .catch((e) => {
         setIsLoading(false);
         toast.error("something went wrong");
       });
+  };
+
+  const Appendcss = () => {
+    setTimeout(() => {
+      $(".ant-input").css({ "background-color": "#c9e3e1", color: "#429f97" });
+    }, 500);
   };
 
   return (
@@ -156,7 +165,7 @@ const Profile = ({ currentUser,updateCurrentUser }) => {
                 fontWeight: "bold",
                 fontSize: "24px",
                 marginTop: "16px",
-              }}  
+              }}
             >
               Your Account
             </h1>
@@ -275,7 +284,12 @@ const Profile = ({ currentUser,updateCurrentUser }) => {
                       type="password"
                       // required
                       value={currentPassword}
-                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      onChange={(e) => {
+                        setCurrentPassword(e.target.value);
+                        checkStrongPassword(e.target.value)
+                          ? setWeakPassword(false)
+                          : setWeakPassword(true);
+                      }}
                       size="large"
                       className="site-form-item-icon1"
                       prefix={<img src={PasswordLock} />}
@@ -305,7 +319,9 @@ const Profile = ({ currentUser,updateCurrentUser }) => {
                       // required
                       type="password"
                       value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
+                      onChange={(e) => {
+                        setNewPassword(e.target.value);
+                      }}
                       size="large"
                       className="site-form-item-icon1"
                       prefix={<img src={PasswordLock} />}
@@ -315,7 +331,7 @@ const Profile = ({ currentUser,updateCurrentUser }) => {
                   <p
                     style={{
                       fontSize: "12px",
-                      color: "#C9E3E1",
+                      color: `${weakPassword ? "#ff4d4f" : "#C9E3E1"}`,
                       marginBottom: "3px",
                       marginTop: "-16px",
                     }}
@@ -366,7 +382,10 @@ const Profile = ({ currentUser,updateCurrentUser }) => {
           ) : (
             <CustomButton
               btnWidth={"150px"}
-              onClick={() => setShowChangePassword(true)}
+              onClick={() => {
+                setShowChangePassword(true);
+                Appendcss();
+              }}
             >
               Change Password{" "}
             </CustomButton>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { Row, Col, Button, Form, Input, Space } from "antd";
 import {
   MailOutlined,
@@ -14,20 +14,23 @@ import auth from "../../../services/auth";
 import Loader from "../../../components/loader/Loader";
 import { toast } from "react-toastify";
 import { isLogin } from "../../../utils";
-
-
+import * as $ from "jquery";
 
 const Forgotpassword = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const history = useHistory()
+  const history = useHistory();
 
-  if(isLogin()) history.push('/worksheet')
+  if (isLogin()) history.push("/worksheet");
+
+  useEffect(() => {
+    $(".ant-input").css({ "background-color": "#c9e3e1", color: "#429f97" });
+  }, []);
 
   const handleForgotPassword = () => {
     setIsLoading(true);
     auth
-      .forgotPassword({email})
+      .forgotPassword({ email })
       .then((res) => {
         setIsLoading(false);
         if (res.data.result === "notFound")
@@ -35,7 +38,9 @@ const Forgotpassword = () => {
         if (res.data.result === "error")
           return toast.error("Something went wrong");
         if (res.data.result === true) {
-          toast.success("Reset Password link has been sent to registered email id");
+          toast.success(
+            "Reset Password link has been sent to registered email id"
+          );
         }
       })
       .catch((e) => {
@@ -80,7 +85,7 @@ const Forgotpassword = () => {
             <rect
               width="100%"
               height="960"
-              style={{ fill: "white", strokeWidth: "0", stroke: "rgb(0,0,0)" }}
+              style={{ fill: "#FFFFF0", strokeWidth: "0", stroke: "rgb(0,0,0)" }}
             />
           </svg>
           <div class="textcentered" style={{ width: "auto", top: "43%" }}>
@@ -101,7 +106,7 @@ const Forgotpassword = () => {
               name="normal_login"
               className="login-form"
               initialValues={{ remember: true }}
-              onFinish = {handleForgotPassword}
+              onFinish={handleForgotPassword}
             >
               <Form.Item
                 name="email"

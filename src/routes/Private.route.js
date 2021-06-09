@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { isLogin } from "../utils";
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const PrivateRoute = ({  component: Component, ...rest }) => {
+
   return (
     <Route
       {...rest}
@@ -11,8 +12,8 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       }
     />
     /* <Route path='/signin'  component= {() => <Signin  {...this.props}/>}/> */
-    
   );
 };
 
-export default PrivateRoute;
+
+export default PrivateRoute

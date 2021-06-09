@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Button, Form, Input, Space } from "antd";
 import {
   MailOutlined,
@@ -15,6 +15,7 @@ import auth from "../../../services/auth";
 import { toast } from "react-toastify";
 import { isLogin, LocalStorage } from "../../../utils";
 import Loader from "../../../components/loader/Loader";
+import * as $ from "jquery";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
@@ -22,7 +23,11 @@ const Signin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
 
-  if(isLogin()) history.push('/worksheet')
+  if (isLogin()) history.push("/worksheet");
+
+  useEffect(() => {
+    $(".ant-input").css({ "background-color": "#c9e3e1", color: "#429f97" });
+  }, []);
 
   const handleSignIn = () => {
     setIsLoading(true);
@@ -33,12 +38,13 @@ const Signin = () => {
         if (res.data.result === "notExist")
           return toast.error("This email does not exist");
         if (res.data.result === "invalid")
-          return toast.error("Password is invalid");
+          return toast.error("Password is incorrect");
         if (res.data.result === "error")
           return toast.error("Something went wrong");
 
         if (res.data.result === true) {
-          if(!res.data.user.isVerified) return toast.error("Please Verify Your Account")
+          if (!res.data.user.isVerified)
+            return toast.error("Please Verify Your Account");
           LocalStorage.StoreToken(res.data.user.token);
           history.push("/worksheet");
         }
@@ -70,9 +76,7 @@ const Signin = () => {
               style={{ height: "140px", width: "100%", marginTop: "118px" }}
             />
           </div>
-          {/* <svg style={{width:"100%", height:"962"}} >
-  <rect width="100%" height="960" style={{fill:'#336699',strokeWidth:'0',rx:'20',stroke:'rgb(0,0,0)'}} />  
-</svg> */}
+
           <div
             style={{
               width: "auto",
@@ -136,7 +140,7 @@ const Signin = () => {
             <rect
               width="100%"
               height="960"
-              style={{ fill: "white", strokeWidth: "0", stroke: "rgb(0,0,0)" }}
+              style={{ fill: "#FFFFF0", strokeWidth: "0", stroke: "rgb(0,0,0)" }}
             />
           </svg>
           <div class="textcentered" style={{ width: "auto", top: "40%" }}>
@@ -170,7 +174,7 @@ const Signin = () => {
               name="normal_login"
               className="login-form"
               initialValues={{ remember: true }}
-              onFinish = {handleSignIn}
+              onFinish={handleSignIn}
             >
               <Form.Item
                 name="email"
