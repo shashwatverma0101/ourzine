@@ -268,11 +268,29 @@ for better animation effect */
   max-height: 35px;
   position: relative;
   text-align: left;
-  width: 12%;
+  width: 85%;
   margin-left: -18px;
   display: flex;
 }
 
-.textareaheading::placeholder{
-  color:black;
+.textareaheading::placeholder {
+  color: black;
+}
+
+.slidertext .ant-slider-rail {
+  height: 2px;
+  background-color: #c9e3e1 !important;
+}
+.slidertext .ant-slider-track {
+  height: 2px;
+  background-color: #429f97 !important;
+}
+.slidertext .ant-slider:hover {
+  background-color: #c9e3e1;
+}
+.slidertext .ant-slider-handle {
+  background-color: #c9e3e1;
+  border: 1px solid #429f97;
+  width: 10px;
+  height: 10px;
 }

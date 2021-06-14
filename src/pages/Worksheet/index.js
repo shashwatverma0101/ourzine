@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Slider } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import "./Worksheet.css";
 // import './leftnavigation.css';
@@ -43,6 +43,8 @@ import {
 } from "../../Image";
 
 const { Header, Sider, Content } = Layout;
+let textsizes1 = 20;
+
 const menu = (
   <Menu>
     <Menu.Item key="1" icon={<UserOutlined />}>
@@ -72,6 +74,7 @@ const Worksheet = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showDeleteSheetModal, setShowDeleteSheetModal] = useState(false);
+  const [textsizes, settextsizes] = useState(20);
   const history = useHistory();
 
   const toggle = () => {
@@ -240,8 +243,6 @@ const Worksheet = () => {
       });
   };
 
-  // const handleAdd
-
   const popupfunc = () => {
     var modal = document.getElementById("myModal");
     $("#myModal").css({ display: "block" });
@@ -250,6 +251,23 @@ const Worksheet = () => {
         $("#myModal").css({ display: "none" });
       }
     };
+  };
+
+  const onChange1 = () => {
+    console.log(textsizes1);
+    $(".maintextarea-dynamic").css("font-size", (textsizes1 += 1));
+    settextsizes(textsizes1);
+  };
+  const onSlideChange = (value) => {
+    $(".maintextarea-dynamic").css("font-size", value + "px");
+    textsizes1 = value;
+    settextsizes(value);
+  };
+
+  const onAfterChange1 = () => {
+    console.log(textsizes1);
+    $(".maintextarea-dynamic").css("font-size", (textsizes1 -= 1));
+    settextsizes(textsizes1);
   };
 
   return (
@@ -497,8 +515,13 @@ const Worksheet = () => {
                 marginTop: "7px",
               }}
             >
-              <li onClick={() => setCurrentSlide(1)}>
-                <div className="small-left-layout">
+              <li
+                onClick={() => {
+                  setCurrentSlide(1);
+                  settextsizes(20);
+                }}
+              >
+                <div className="small-left-layout" >
                   <h2 style={{ whiteSpace: "pre-line", fontWeight: "700" }}>
                     {defaultSheet.title
                       ? defaultSheet.title
@@ -522,7 +545,12 @@ const Worksheet = () => {
                 </div>
               </li>
 
-              <li onClick={() => setCurrentSlide(2)}>
+              <li
+                onClick={() => {
+                  setCurrentSlide(2);
+                  settextsizes(20);
+                }}
+              >
                 <div className="small-left-layout">
                   <div
                     style={{
@@ -540,7 +568,10 @@ const Worksheet = () => {
               {sheet?.map((slides) => (
                 <li
                   key={slides.slide}
-                  onClick={() => setCurrentSlide(slides.slide)}
+                  onClick={() => {
+                    setCurrentSlide(slides.slide);
+                    settextsizes(20);
+                  }}
                 >
                   <div className="small-left-layout">
                     <p
@@ -589,9 +620,10 @@ const Worksheet = () => {
           >
             <div
               className="sidearrow"
-              onClick={() =>
-                setCurrentSlide(currentSlide - 1 === 0 ? 1 : currentSlide - 1)
-              }
+              onClick={() => {
+                setCurrentSlide(currentSlide - 1 === 0 ? 1 : currentSlide - 1);
+                settextsizes(20);
+              }}
             >
               <div className="leftarrow">
                 <img className="leftellipse" src={Ellipse} />
@@ -626,6 +658,7 @@ const Worksheet = () => {
                           defaultSheet.subtitle.length)
                       ) {
                         handleAddSheet();
+                        setCurrentSlide(currentSlide + 2)
                       }
                     }}
                     onChange={(e) => {
@@ -714,18 +747,40 @@ const Worksheet = () => {
 
             <div className="sidearrow1">
               <div className="zoombuttons">
-                <img src={ZoomPlus} style={{ height: "23px" }} />
                 <img
-                  src={ZoomSlider}
-                  style={{ height: "10px", margin: "5px 5px 0px 5px" }}
+                  className="zoom-minus"
+                  src={ZoomMinus}
+                  style={{ height: "23px" }}
+                  onClick={() =>
+                    //  {setzoomslidetype('decrease');setzoomsliderchange(!zoomsliderchange)}
+                    onAfterChange1()
+                  }
                 />
-                <img src={ZoomMinus} style={{ height: "23px" }} />
+                <Slider
+                  defaultValue={20}
+                  value={textsizes}
+                  onChange={onSlideChange}
+                  className="slidertext"
+                  style={{ margin: "5px 5px 0px 5px", width: "110px" }}
+                />
+                {/* <img src={ZoomSlider} style={{height:'10px',margin:'5px 5px 0px 5px'}} /> */}
+                <img
+                  className="zoom-plus"
+                  src={ZoomPlus}
+                  style={{ height: "23px" }}
+                  onClick={() =>
+                    //  {setzoomslidetype('increase');setzoomsliderchange(!zoomsliderchange)}
+                    onChange1()
+                  }
+                />
               </div>
               <div
                 className="rightarrow"
                 onClick={() => {
-                  if (currentSlide <= sheet.length)
+                  if (currentSlide <= sheet.length) {
                     setCurrentSlide(currentSlide + 1);
+                    settextsizes(20);
+                  }
                 }}
               >
                 <img src={Ellipse} />
