@@ -40,6 +40,8 @@ import {
   Logout,
   Sliderleft,
   Ourzinelogo,
+  ArrowLeftDisable,
+  ArrowRightDisable,
 } from "../../Image";
 
 const { Header, Sider, Content } = Layout;
@@ -142,7 +144,8 @@ const Worksheet = () => {
       setSheet(newSheet);
     }
     if (event.target.value.length >= 500) {
-      handleAddSheet();
+      if (totalSlide === currentSlide) handleAddSheet();
+      else setCurrentSlide(currentSlide+1);
     }
   };
 
@@ -254,7 +257,6 @@ const Worksheet = () => {
   };
 
   const onChange1 = () => {
-    console.log(textsizes1);
     $(".maintextarea-dynamic").css("font-size", (textsizes1 += 1));
     settextsizes(textsizes1);
   };
@@ -265,7 +267,6 @@ const Worksheet = () => {
   };
 
   const onAfterChange1 = () => {
-    console.log(textsizes1);
     $(".maintextarea-dynamic").css("font-size", (textsizes1 -= 1));
     settextsizes(textsizes1);
   };
@@ -344,7 +345,7 @@ const Worksheet = () => {
               Print
             </span>
           </button>
-          <button
+          {/* <button
             className={`leftcontents ${option === "addSheet" ? "active" : ""}`}
             disabled={
               defaultSheet.title || defaultSheet.subtitle ? false : true
@@ -374,7 +375,7 @@ const Worksheet = () => {
             >
               Add sheet
             </span>
-          </button>
+          </button> */}
           {/* Delete slide when onClick {Old Figma Design} */}
           {/* <button
             disabled={
@@ -449,8 +450,8 @@ const Worksheet = () => {
             <img
               src={
                 defaultSheet.title || defaultSheet.subtitle
-                  ? DeleteSheet
-                  : DeleteSheetDisable
+                  ? Delete
+                  : DeleteDisable
               }
               style={{ marginLeft: "14px" }}
             />
@@ -511,7 +512,7 @@ const Worksheet = () => {
                 width: "82%",
                 overflow: "hidden",
                 overflowY: "scroll",
-                listStyleType: "decimal",
+                listStyleType: "none",
                 marginTop: "7px",
               }}
             >
@@ -521,26 +522,29 @@ const Worksheet = () => {
                   settextsizes(20);
                 }}
               >
-                <div className="small-left-layout" >
-                  <h2 style={{ whiteSpace: "pre-line", fontWeight: "700" }}>
-                    {defaultSheet.title
-                      ? defaultSheet.title
-                      : "CLICK TO ADD TITLE"}
-                  </h2>
-                  <p style={{ whiteSpace: "pre-line", fontWeight: "400" }}>
-                    {defaultSheet.subtitle
-                      ? defaultSheet.subtitle
-                      : "CLICK TO ADD SUBTITLE"}
-                  </p>
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: "4px",
-                      width: "100%",
-                      marginLeft: "-6px",
-                    }}
-                  >
-                    FRONT COVER
+                <div className="small-left-layout-container">
+                  <div className="leftpreviewheading">FRONT COVER</div>
+                  <div className="small-left-layout">
+                    <h2 style={{ whiteSpace: "pre-line", fontWeight: "700" }}>
+                      {defaultSheet.title
+                        ? defaultSheet.title
+                        : "CLICK TO ADD TITLE"}
+                    </h2>
+                    <p style={{ whiteSpace: "pre-line", fontWeight: "400" }}>
+                      {defaultSheet.subtitle
+                        ? defaultSheet.subtitle
+                        : "CLICK TO ADD SUBTITLE"}
+                    </p>
+                    {/* <div
+                      style={{
+                        position: "absolute",
+                        bottom: "4px",
+                        width: "100%",
+                        marginLeft: "-6px",
+                      }}
+                    >
+                      FRONT COVER
+                    </div> */}
                   </div>
                 </div>
               </li>
@@ -551,17 +555,20 @@ const Worksheet = () => {
                   settextsizes(20);
                 }}
               >
-                <div className="small-left-layout">
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: "4px",
-                      width: "100%",
-                      marginLeft: "-6px",
-                    }}
-                  >
-                    INSIDE FRONT COVER
-                  </div>{" "}
+                <div className="small-left-layout-container">
+                  <div className="leftpreviewheading">INSIDE FRONT COVER</div>
+                  <div className="small-left-layout">
+                    {/* <div
+                      style={{
+                        position: "absolute",
+                        bottom: "4px",
+                        width: "100%",
+                        marginLeft: "-6px",
+                      }}
+                    >
+                      INSIDE FRONT COVER
+                    </div>{" "} */}
+                  </div>
                 </div>
               </li>
 
@@ -573,18 +580,21 @@ const Worksheet = () => {
                     settextsizes(20);
                   }}
                 >
-                  <div className="small-left-layout">
-                    <p
-                      className="left-layout-para"
-                      style={{
-                        textAlign: "left",
-                        whiteSpace: "pre-line",
-                        overflowY: "scroll",
-                        maxHeight: "175px",
-                      }}
-                    >
-                      {slides.para}
-                    </p>
+                  <div className="small-left-layout-container">
+                    <div className="leftpreviewheading">{slides.slide - 2}</div>
+                    <div className="small-left-layout">
+                      <p
+                        className="left-layout-para"
+                        style={{
+                          textAlign: "left",
+                          whiteSpace: "pre-line",
+                          overflowY: "scroll",
+                          maxHeight: "175px",
+                        }}
+                      >
+                        {slides.para}
+                      </p>
+                    </div>
                   </div>
                 </li>
               ))}
@@ -592,7 +602,10 @@ const Worksheet = () => {
           </div>
         </div>
 
-        <div style={{ position: "relative", top: "40%", maxHeight: "130px" }}>
+        <div
+          className="slider-left"
+          style={{ position: "relative", top: "40%", maxHeight: "130px" }}
+        >
           <img
             src={Sliderleft}
             onClick={sliderchange}
@@ -628,7 +641,9 @@ const Worksheet = () => {
               <div className="leftarrow">
                 <img className="leftellipse" src={Ellipse} />
                 <div>
-                  <img src={ArrowLeft} />
+                  <img
+                    src={currentSlide === 1 ? ArrowLeftDisable : ArrowLeft}
+                  />
                 </div>
               </div>
             </div>
@@ -658,7 +673,7 @@ const Worksheet = () => {
                           defaultSheet.subtitle.length)
                       ) {
                         handleAddSheet();
-                        setCurrentSlide(currentSlide + 2)
+                        setCurrentSlide(currentSlide + 2);
                       }
                     }}
                     onChange={(e) => {
@@ -669,8 +684,8 @@ const Worksheet = () => {
                     }}
                   ></textarea>
                 </form>
-                <div style={{ textAlign: "center", marginTop: "-6px" }}>
-                  FRONT COVER
+                <div style={{ textAlign: "center", marginTop: "12px" }}>
+                  {/* FRONT COVER */}
                 </div>
                 <div className="countcharacters">
                   <span className="countchars">0</span>
@@ -690,8 +705,8 @@ const Worksheet = () => {
                     disabled={true}
                   ></textarea>
                 </form>
-                <div style={{ textAlign: "center", marginTop: "65px" }}>
-                  INSIDE FRONT COVER
+                <div style={{ textAlign: "center", marginTop: "87px" }}>
+                  {/* INSIDE FRONT COVER */}
                 </div>
                 <div className="countcharacters">
                   <span className="countchars">0</span>
@@ -777,7 +792,7 @@ const Worksheet = () => {
               <div
                 className="rightarrow"
                 onClick={() => {
-                  if (currentSlide <= sheet.length) {
+                  if (currentSlide !== totalSlide) {
                     setCurrentSlide(currentSlide + 1);
                     settextsizes(20);
                   }
@@ -785,13 +800,284 @@ const Worksheet = () => {
               >
                 <img src={Ellipse} />
                 <div>
-                  <img src={ArrowRight} />
+                  <img
+                    src={
+                      currentSlide === totalSlide
+                        ? ArrowRightDisable
+                        : ArrowRight
+                    }
+                  />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </Layout>
+
+      <div className="box-1">
+        <div className="box-inner">
+          <div
+            style={{
+              fontWeight: "700",
+              marginTop: "5px",
+              marginLeft: "16px",
+              fontSize: "12px",
+              color: "#C9E3E1",
+              marginBottom: "-4px",
+            }}
+          >
+            {totalSlide}/64
+          </div>
+
+          <ul
+            style={{
+              height: "860px",
+              width: "82%",
+              overflow: "hidden",
+              overflowY: "scroll",
+              listStyleType: "none",
+              marginTop: "7px",
+            }}
+          >
+            <li
+              onClick={() => {
+                setCurrentSlide(1);
+                settextsizes(20);
+              }}
+            >
+              <div className="small-left-layout-container">
+                <div className="leftpreviewheading">FRONT COVER</div>
+                <div className="small-left-layout">
+                  <h2 style={{ whiteSpace: "pre-line", fontWeight: "700" }}>
+                    {defaultSheet.title
+                      ? defaultSheet.title
+                      : "CLICK TO ADD TITLE"}
+                  </h2>
+                  <p style={{ whiteSpace: "pre-line", fontWeight: "400" }}>
+                    {defaultSheet.subtitle
+                      ? defaultSheet.subtitle
+                      : "CLICK TO ADD SUBTITLE"}
+                  </p>
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "4px",
+                      width: "100%",
+                      marginLeft: "-6px",
+                    }}
+                  >
+                    FRONT COVER
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li
+              onClick={() => {
+                setCurrentSlide(2);
+                settextsizes(20);
+              }}
+            >
+              <div className="small-left-layout-container">
+                <div className="leftpreviewheading">INSIDE FRONT COVER</div>
+                <div className="small-left-layout">
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "4px",
+                      width: "100%",
+                      marginLeft: "-6px",
+                    }}
+                  >
+                    INSIDE FRONT COVER
+                  </div>{" "}
+                </div>
+              </div>
+            </li>
+
+            {sheet?.map((slides) => (
+              <li
+                key={slides.slide}
+                onClick={() => {
+                  setCurrentSlide(slides.slide);
+                  settextsizes(20);
+                }}
+              >
+                <div className="small-left-layout-container">
+                  <div className="leftpreviewheading">{slides.slide - 2}</div>
+                  <div className="small-left-layout">
+                    <p
+                      className="left-layout-para"
+                      style={{
+                        textAlign: "left",
+                        whiteSpace: "pre-line",
+                        overflowY: "scroll",
+                        maxHeight: "175px",
+                      }}
+                    >
+                      {slides.para}
+                    </p>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div id="mainleftnav-1">
+        {/* {/* <button
+            className={`leftcontents ${option === "edit" ? "active" : ""}`}
+            onClick={() => {
+              setOption("edit");
+              history.push("/worksheet");
+            }}
+          >
+            <img src={Edit} style={{ marginLeft: "14px" }} />
+            
+          </button>
+          <button
+            className={`leftcontents ${option === "print" ? "active" : ""}`}
+            onClick={() => {
+              setOption("print");
+              popupfunc();
+            }}
+            disabled={
+              defaultSheet.title || defaultSheet.subtitle ? false : true
+            }
+          >
+            <img
+              src={
+                defaultSheet.title || defaultSheet.subtitle
+                  ? Print
+                  : PrintDisable
+              }
+              style={{
+                marginLeft: "14px",
+              }}
+            />
+            <span
+              style={{
+                color: `${
+                  defaultSheet.title || defaultSheet.subtitle ? "" : "#429f97"
+                }`,
+              }}
+            >
+              
+            </span>
+          </button> */}
+        <button
+          className={`leftcontents ${option === "addSheet" ? "active" : ""}`}
+          disabled={defaultSheet.title || defaultSheet.subtitle ? false : true}
+          onClick={() => {
+            if (totalSlide < 64) {
+              setOption("edit");
+              setTotalSlide(totalSlide + 1);
+              setSheet([...sheet, { slide: totalSlide + 1, para: "" }]);
+            }
+          }}
+        >
+          <img
+            src={
+              defaultSheet.title || defaultSheet.subtitle
+                ? AddSheet
+                : AddSheetDisable
+            }
+            style={{ margin: "auto auto" }}
+          />
+        </button>
+        {/* Delete slide when onClick {Old Figma Design} */}
+        {/* <button
+            disabled={
+              defaultSheet.title || defaultSheet.subtitle ? false : true
+            }
+            className={`leftcontents ${
+              option === "deleteSheet" ? "active" : ""
+            }`}
+            onClick={() => {
+              if (currentSlide !== 1) {
+                setOption("deleteSheet");
+                setShowModal(true);
+              }
+            }}
+          >
+            <img
+              src={
+                defaultSheet.title || defaultSheet.subtitle
+                  ? DeleteSheet
+                  : DeleteSheetDisable
+              }
+              style={{ margin: "14px" }}
+            />
+            <span
+              style={{
+                color: `${
+                  defaultSheet.title || defaultSheet.subtitle ? "" : "#429f97"
+                }`,
+              }}
+            >
+              {" "}
+              Delete sheet
+            </span>
+          </button> */}
+        <button
+          className={`leftcontents ${option === "save" ? "active" : ""}`}
+          onClick={() => {
+            setOption("save");
+            handleSave();
+          }}
+          disabled={defaultSheet.title || defaultSheet.subtitle ? false : true}
+        >
+          <img
+            src={
+              defaultSheet.title || defaultSheet.subtitle ? Save : SaveDisable
+            }
+            style={{ margin: "auto auto" }}
+          />
+        </button>
+        <button
+          className={`leftcontents ${option === "delete" ? "active" : ""}`}
+          onClick={() => {
+            setOption("delete");
+            setShowDeleteSheetModal(true);
+          }}
+          disabled={defaultSheet.title || defaultSheet.subtitle ? false : true}
+        >
+          <img
+            src={
+              defaultSheet.title || defaultSheet.subtitle
+                ? DeleteSheet
+                : DeleteSheetDisable
+            }
+            style={{ margin: "auto auto" }}
+          />
+        </button>
+        <button
+          className={`leftcontents ${option === "help" ? "active" : ""}`}
+          onClick={() => {
+            setOption("help");
+            history.push("/help");
+          }}
+        >
+          <img
+            src={
+              defaultSheet.title || defaultSheet.subtitle ? Help : HelpDisable
+            }
+            style={{ margin: "auto auto" }}
+          />
+        </button>
+      </div>
+
+      <div
+        className="slider-left-1"
+        style={{ position: "relative", top: "40%", maxHeight: "130px" }}
+      >
+        <img
+          src={Sliderleft}
+          onClick={sliderchange}
+          style={{ marginLeft: "-2px" }}
+        />
+      </div>
     </>
   );
 };

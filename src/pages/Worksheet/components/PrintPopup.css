@@ -22,7 +22,7 @@
   margin: auto;
   padding: 0;
   border: 1px solid #429f97;
-  width: 37%;
+  width: 600px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
@@ -154,3 +154,63 @@
 }
 /* Scrollbar custom */
 /* Print popup */
+
+.pdf-container {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100vh;
+}
+
+.pdf-first-cord {
+  width: 50%;
+  height: 50%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  border-right: 0.2px solid #429f97;
+  border-bottom: 0.2px solid #429f97;
+}
+
+.pdf-second-cord {
+  width: 50%;
+  height: 50%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;  
+  border-left: 0.2px solid #429f97;
+  border-bottom: 0.2px solid #429f97;
+}
+
+.pdf-third-cord {
+  width: 50%;
+  height: 50%;
+  border-right: 0.2px solid #429f97;
+  border-top: 0.2px solid #429f97;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;  border-top: 0.2px solid #429f97;
+}
+
+.pdf-fourth-cord {
+  width: 50%;
+  height: 50%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  border-left: 0.2px solid #429f97;
+  border-top: 0.2px solid #429f97;
+}
+
+.pdf-content-third, .pdf-content-fourth {
+  /* margin-top: 15px; */
+}
+
+.page-bottom {
+  display: flex;
+  justify-content: center;
+  /* margin-bottom: 0; */
+}
+
+.first-cord-bottom, .second-cord-bottom {
+  margin-bottom: 10px;
+}

@@ -3,6 +3,6 @@
         "node_modules{,/**}",
         ".vscode{,/**}"
     ],
-    "appService.defaultWebAppToDeploy": "",
+    "appService.defaultWebAppToDeploy": "/subscriptions/f49ef7ee-61dc-4e36-917b-92e622a144a8/resourceGroups/Ourzine/providers/Microsoft.Web/sites/ourzine",
     "appService.deploySubpath": "."
 }

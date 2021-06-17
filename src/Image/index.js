@@ -18,6 +18,8 @@ import Help from "./Help.svg";
 import Ellipse from "./Ellipse 1.svg";
 import ArrowRight from "./Arrow-Right.svg";
 import ArrowLeft from "./Arrow-Left.svg";
+import ArrowLeftDisable from './Arrow-Left-Disable.svg'
+import ArrowRightDisable from './Arrow-Right-Disable.svg'
 import EditSquareGreen from "./EditSquareGreen.svg";
 import Logout from "./Logout.svg";
 import Sliderleft from "./Sliderleft.svg";
@@ -48,5 +50,7 @@ export {
   EditSquareGreen,
   Logout,
   Sliderleft,
-  Ourzinelogo
+  Ourzinelogo,
+  ArrowLeftDisable,
+  ArrowRightDisable
 };

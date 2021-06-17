@@ -44,6 +44,7 @@ const Signup = () => {
           return toast.error("Something went wrong");
         if (res.data.result === true) {
           toast.success("Registered Successfully");
+          toast.success("Please Verify Your Account");
           history.push("/signin");
         }
       })
@@ -67,7 +68,7 @@ const Signup = () => {
             borderBottomRightRadius: "20px",
           }}
         >
-          <div>
+     <div>
             <img
               src={Ourzinelogo}
               style={{ height: "140px", width: "100%", marginTop: "118px" }}

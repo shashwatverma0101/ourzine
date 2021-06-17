@@ -1,0 +1,116 @@
+/* .printframe { */
+  /* padding:10px; */
+  /* background-color: red; */
+/* } */
+.printgeneratelayout {
+  width: 49%;
+  /* max-width: 48%; */
+  height: 47vh; /* 259px */
+  max-height: 47vh; /* 259px */
+  min-height: 47vh; /* 259px */
+
+  background-color: white;
+  /* border: 1px solid #429F97; */
+  font-size: 5px;
+  text-align: center;
+  padding: 6px;
+  margin-top: 0px;
+  /* margin-right: 10px; */
+  position: relative;
+}
+.printframebody {
+  background: white;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  /* border: 1px solid #429F97; */
+}
+.printframebody ul li {
+  width: 98vw;
+  height: 1076px;
+  min-height: 1076px;
+  display: flex;
+  flex-wrap: wrap;
+  /* margin-top: 16px; */
+  /* border: 1px solid #429F97; */
+}
+
+.printframebody ul {
+  display: flex;
+  flex-wrap: wrap;
+  height: auto;
+  /* overflow: hidden; */
+  /* overflow-y: scroll; */
+  list-style-type: none;
+  /* margin-top: 7px; */
+  padding: 0px 22px 0px 26px;
+  width: 102%;
+  /* padding-top: 7px; */
+  /* border: 1px solid #429F97; */
+}
+
+.page-break {
+  margin-top: 10px;
+  display: block;
+  page-break-before: auto;
+}
+.verticalcenterline{
+  border-left: 0.5px solid #C4C4C4;
+  height: 1076px;
+  margin-left: -6px;
+  margin-right: 4px;
+  position: absolute;
+  left: 420px;
+  /* z-index: 2; */
+  /* margin-top: -20px; */
+}
+.thirdlayoutsheet{
+  display:block;
+  width:394px;
+
+  /* added 16june 1pm */
+  height: 48vh;
+    max-height: 48vh;
+    min-height: 48vh;
+}
+.verticalcenterline1{
+  border-top: 0.5px solid #C4C4C4;
+  height: 3px;
+  margin-top: -6px;
+  width:100%;
+  position: absolute;
+  left: 0px;
+}
+.sheetsideheading{
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  text-align: center;
+  margin-right: -13px;
+  font-size: 8px;
+  margin-left: 1px;
+}
+.lichildsheetscontainer{
+  display: flex;
+  width: 49%;
+  margin-right: auto;
+  margin-top: -1px;
+}
+.sheetsideheading1{
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  text-align: center;
+  margin-left: -14px;
+  margin-right: 1px;
+  font-size: 8px;
+}
+.print-layout-para::-webkit-scrollbar {
+  display: none;
+}
+.print-layout-para{
+  text-align: left;
+  white-space: pre-line;
+  overflow-y: scroll;
+  overflow-x: scroll;
+  max-height: 43vh;
+  font-size: 8px;
+}

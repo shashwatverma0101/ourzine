@@ -33,9 +33,13 @@ const Profile = ({ currentUser, updateCurrentUser }) => {
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [showFullName, setShowFullName] = useState(false);
   const [weakPassword, setWeakPassword] = useState(false);
+  const [profilePic, setProfilePic] = useState("");
 
   useEffect(() => {
-    if (currentUser) setName(currentUser.name);
+    if (currentUser) {
+      setProfilePic(currentUser.profilepic);
+      setName(currentUser.name);
+    }
   }, [currentUser]);
 
   const handleUploadProfilePic = (e) => {
@@ -147,15 +151,16 @@ const Profile = ({ currentUser, updateCurrentUser }) => {
       <Row style={{ marginTop: "20px" }}>
         <Col span={1}></Col>
         <Col span={4}>
-          <div style={{ width: "200px", height: "200px" }}>
+          <div style={{ width: "200px", height: "200px", marginRight : "50px" }}>{
+            currentUser ? 
             <img
               width="200px"
               height="200px"
-              src={`${BASE_API_URL}/auth/get-profilepic/${
+              src={ profilePic ? `${BASE_API_URL}/auth/get-profilepic/${
                 currentUser ? currentUser._id : ""
-              }`}
+              }` : "https://pixabay.com/get/gf3bccfafd5fb904fdd46e1e78899f31d68fda75373a9a5e7bf3f5b6ed6c588e94c2cb946d4db56fa3f144772f0356865_1920.jpg"}
               style={{ borderRadius: "20px" }}
-            />
+            /> : ""}
           </div>
         </Col>
         <Col span={12}>
@@ -286,9 +291,7 @@ const Profile = ({ currentUser, updateCurrentUser }) => {
                       value={currentPassword}
                       onChange={(e) => {
                         setCurrentPassword(e.target.value);
-                        checkStrongPassword(e.target.value)
-                          ? setWeakPassword(false)
-                          : setWeakPassword(true);
+      
                       }}
                       size="large"
                       className="site-form-item-icon1"
@@ -313,7 +316,7 @@ const Profile = ({ currentUser, updateCurrentUser }) => {
                         width: "345px",
                         marginLeft: "auto",
                         marginRight: "auto",
-                        backgroundColor: "#C9E3E1",
+                        backgroundColor: "#C9E3E1", 
                         marginTop: "-5px",
                       }}
                       // required
@@ -321,6 +324,9 @@ const Profile = ({ currentUser, updateCurrentUser }) => {
                       value={newPassword}
                       onChange={(e) => {
                         setNewPassword(e.target.value);
+                        checkStrongPassword(e.target.value)
+                        ? setWeakPassword(false)
+                        : setWeakPassword(true);
                       }}
                       size="large"
                       className="site-form-item-icon1"

@@ -1,9 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { Divider, Button } from "antd";
 import { DownOutlined } from "@ant-design/icons";
-import Ourzinelogo from "../../Image/Rorshoklogoblack.svg";
-import Logout from "../../Image/Logout.svg";
-import EditSquareGreen from "../../Image/EditSquareGreen.svg";
+import OurzineWhiteLogo from '../../Image/ourzinelogo1.svg'
+import {
+  ZoomPlus,
+  ZoomMinus,
+  ZoomSlider,
+  PrintDisable,
+  AddSheetDisable,
+  DeleteSheetDisable,
+  SaveDisable,
+  DeleteDisable,
+  HelpDisable,
+  DangerTriangle,
+  Edit,
+  Print,
+  AddSheet,
+  DeleteSheet,
+  Save,
+  Delete,
+  Help,
+  Ellipse,
+  ArrowRight,
+  ArrowLeft,
+  EditSquareGreen,
+  Logout,
+  Sliderleft,
+  Ourzinelogo,
+  ArrowLeftDisable,
+  ArrowRightDisable
+  
+} from "../../Image";
 import { isLogin, LocalStorage } from "../../utils";
 import "./Navigation.css";
 import { useHistory } from "react-router-dom";
@@ -47,6 +74,19 @@ const Navigation = ({ isEdit, currentUser, fetchCurrentUser }) => {
   }, [currentUser]);
 
   return (
+    <>
+    <div className ="mobileViewNav">
+        <div style ={{display : "flex"}}>
+          <img className = "nav-content-img" src={OurzineWhiteLogo} height = "30px" alt="" />
+        </div>
+        <div style = {{display: "flex"}}>
+        <div className = "nav-content"><img src={Save} height = "20px" alt="" /></div>
+        <div className = "nav-content"><img src={Print} height = "20px" alt="" /></div>
+        <div className = "nav-content"><img src={Delete} height = "20px" alt="" /></div>
+        <div className = "nav-content"><img src={Help} height = "20px" alt="" /></div>
+        </div>
+    </div>
+
     <div style={{ backgroundColor: "#fffff0" }}>
       <div className="navbar">
         <img src={Ourzinelogo} style={{ height: "76px" }} />
@@ -78,27 +118,45 @@ const Navigation = ({ isEdit, currentUser, fetchCurrentUser }) => {
           )}
           <div className="dropdown">
             <button className="dropbtn">
-              <img
-                src={`${BASE_API_URL}/auth/get-profilepic/${
-                  currentUser ? currentUser._id : ""
-                }`}
-                style={{
-                  height: "50px",
-                  borderRadius: "40px",
-                  marginRight: "5px",
-                }}
-              />
+              {currentUser ? (
+                <img
+                  height="200px"
+                  src={
+                    currentUser.profilepic
+                      ? `${BASE_API_URL}/auth/get-profilepic/${
+                          currentUser ? currentUser._id : ""
+                        }`
+                      : "https://pixabay.com/get/gf3bccfafd5fb904fdd46e1e78899f31d68fda75373a9a5e7bf3f5b6ed6c588e94c2cb946d4db56fa3f144772f0356865_1920.jpg"
+                  }
+                  style={{
+                    height: "50px",
+                    borderRadius: "40px",
+                    marginRight: "5px",
+                  }}
+                />
+              ) : (
+                ""
+              )}
               {currentUser ? currentUser.name : ""}
               <DownOutlined />
               <i className="fa fa-caret-down"></i>
             </button>
             <div className="dropdown-content">
-              <img
-                className="profileimg"
-                src={`${BASE_API_URL}/auth/get-profilepic/${
-                  currentUser ? currentUser._id : ""
-                }`}
-              />
+              {currentUser ? (
+                <img
+                  className="profileimg"
+                  height="200px"
+                  src={
+                    currentUser.profilepic
+                      ? `${BASE_API_URL}/auth/get-profilepic/${
+                          currentUser ? currentUser._id : ""
+                        }`
+                      : "https://pixabay.com/get/gf3bccfafd5fb904fdd46e1e78899f31d68fda75373a9a5e7bf3f5b6ed6c588e94c2cb946d4db56fa3f144772f0356865_1920.jpg"
+                  }
+                />
+              ) : (
+                ""
+              )}
               <p>
                 <b style={{ color: "#429f97" }}>
                   {" "}
@@ -122,6 +180,8 @@ const Navigation = ({ isEdit, currentUser, fetchCurrentUser }) => {
         </div>
       </div>
     </div>
+
+    </>
   );
 };
 

@@ -1,6 +1,3 @@
-export const truncate = (skip, str, noOfWords) =>
-  str.split(" ").splice(skip, noOfWords).join(" ");
-
 export const checkStrongPassword = (password) => {
   const strongRegex = new RegExp(
     "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
@@ -9,6 +6,7 @@ export const checkStrongPassword = (password) => {
 };
 
 export const breakSheetIntoCord = (sheet, title, subtitle) => {
+
   const newSheet = [
     { slide: 0, title, subtitle, type: "FRONT PAGE", isCover: true },
     {
@@ -19,7 +17,6 @@ export const breakSheetIntoCord = (sheet, title, subtitle) => {
       isCover: true,
     },
     ...sheet,
-    { slide: 0, title: "", subtitle: "", type: "BACK COVER", isCover: true },
     {
       slide: 0,
       title: "",
@@ -27,7 +24,9 @@ export const breakSheetIntoCord = (sheet, title, subtitle) => {
       type: "INSIDE BACK COVER",
       isCover: true,
     },
+    { slide: 0, title: "", subtitle: "", type: "BACK COVER", isCover: true },
   ];
+
 
   let worksheet = [];
   let firstIndex = 0;

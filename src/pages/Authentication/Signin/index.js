@@ -58,7 +58,7 @@ const Signin = () => {
   return (
     <Row>
       {isLoading ? <Loader /> : ""}
-      <Col span={12}>
+      <Col span={12} >
         <div
           style={{
             color: "white",
