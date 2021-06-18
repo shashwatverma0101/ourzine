@@ -15,6 +15,8 @@ import auth from "../../../services/auth";
 import { toast } from "react-toastify";
 import * as $ from "jquery";
 import { checkStrongPassword } from "../../../utils/utils";
+import './Resetpassword.css';
+import PasswordLock from "../../../Image/PasswordLock.svg";
 
 const Resetpassword = ({ match }) => {
   const [password, setPassword] = useState("");
@@ -52,46 +54,26 @@ const Resetpassword = ({ match }) => {
   }, []);
 
   return (
-    <Row>
+    <div className="rpasstopdiv">
       {isLoading ? <Loader /> : ""}
-      <Col span={12}>
-        <div
-          style={{
-            color: "white",
-            height: "967px",
-            display: "block",
-            backgroundColor: "#429f97",
-            borderTopRightRadius: "20px",
-            borderBottomRightRadius: "20px",
-          }}
-        >
+      <div className="rpassleftcontainer">
+        <div className="rpassleftchild" >
           <div>
             <img
-              src={Ourzinelogo}
-              style={{ height: "140px", width: "100%", marginTop: "70px" }}
-            />
+              src={Ourzinelogo} className="rpassleftlogo" />
           </div>
-
+          </div>
           <div>
             <img
-              src={Girlvector}
-              style={{ height: "463px", width: "100%", marginTop: "115px" }}
-            />
+              src={Girlvector} className="rpassgirlvector" />
           </div>
-        </div>
-      </Col>
-      <Col span={12}>
-        <div class="imagecontainer">
-          {/* <div id="ic"> */}
-          <svg style={{ width: "100%", height: "962" }}>
-            <rect
-              width="100%"
-              height="960"
-              style={{ fill: "#FFFFF0", strokeWidth: "0", stroke: "rgb(0,0,0)" }}
-            />
-          </svg>
-          <div class="textcentered" style={{ width: "auto", top: "46%" }}>
-            <h1
+       
+      </div>
+      <div className="rpassrightcontainer">
+        
+          <div className="rpassrightchild">
+          <div className="rpassrightchildcontent" >
+            <h3
               style={{
                 color: "#429f97",
                 fontWeight: "700px",
@@ -102,8 +84,22 @@ const Resetpassword = ({ match }) => {
               }}
             >
               Reset Password
-            </h1>
-
+            </h3>
+            </div>
+            <div className="rpassrightchildsmallcontent" >
+            <h3
+              style={{
+                color: "#429f97",
+                fontWeight: "700px",
+                fontSize: "24px",
+                fontWeight: "700",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+            >
+              Welcome, Writer!
+            </h3>
+            </div>
             <Form
               name="normal_login"
               className="login-form"
@@ -121,7 +117,7 @@ const Resetpassword = ({ match }) => {
                     fontSize: "21px",
                     padding: "9px 9px 9px 19px",
                     borderRadius: "7px",
-                    width: "345px",
+                    // width: "345px",
                     marginLeft: "auto",
                     marginRight: "auto",
                     backgroundColor: "#C9E3E1",
@@ -135,31 +131,31 @@ const Resetpassword = ({ match }) => {
                       : setWeakPassword(true);
                   }}
                   size="large"
-                  className="site-form-item-icon1"
+                  className="site-form-item-icon1 rpassemail"
                   prefix={
-                    <LockOutlined
+                    <img src={PasswordLock}
                       className="site-form-item-icon"
-                      style={{ color: "#429f97" }}
+                      style={{ color: "#429f97",width: '22px' }}
                     />
                   }
                   placeholder="New Password"
                 />
               </Form.Item>
-              <p
-                style={{
-                  fontSize: "12px",
-                  color: `${weakPassword ? "#ff4d4f" : "#C9E3E1"}`,
-                  marginBottom: "20px",
-                  marginLeft: "15px",
-                  marginTop: "-20px",
-                }}
+              <p className="rpasspasswordinstr"
+                // style={{
+                //   fontSize: "12px",
+                //   color: `${weakPassword ? "#ff4d4f" : "#C9E3E1"}`,
+                //   marginBottom: "20px",
+                //   marginLeft: "15px",
+                //   marginTop: "-20px",
+                // }}
               >
-                Use 8 or more characters with a mix of letters, numbers and
+                Use 8 or more characters with a mix of letters, numbers &
                 symbols
               </p>
 
               <Form.Item
-                style={{ marginTop: "-5px", marginBottom: "30px" }}
+                // style={{ marginTop: "-5px", marginBottom: "30px" }}
                 name="confirm"
                 rules={[
                   { required: true, message: "Please input your Password!" },
@@ -168,19 +164,20 @@ const Resetpassword = ({ match }) => {
                 <Input
                   size="large"
                   type="password"
+                  className="site-form-item-icon1 rpasspassword"
                   style={{
                     fontSize: "21px",
                     padding: "9px 9px 9px 19px",
                     borderRadius: "7px",
-                    width: "345px",
+                    // width: "345px",
                     marginLeft: "auto",
                     marginRight: "auto",
                     backgroundColor: "#C9E3E1",
                   }}
                   prefix={
-                    <LockOutlined
+                    <img src={PasswordLock}
                       className="site-form-item-icon"
-                      style={{ color: "#429f97" }}
+                      style={{ color: "#429f97",width: '22px' }}
                     />
                   }
                   value={confirmPassword}
@@ -209,12 +206,27 @@ const Resetpassword = ({ match }) => {
                   Submit
                 </Button>
               </Form.Item>
+              <div className="rpasssmallforgotpass" >
+                <Link to={`/signin`}>
+                  <a
+                    className="login-form-forgot"
+                    href=""
+                    style={{
+                      color: "#429f97",
+                      fontWeight: "300",
+                      fontSize: "12px"
+                    }}
+                  >
+                  Login
+                  </a>
+                </Link>
+              </div>
             </Form>
-          </div>
+          
         </div>
         {/* </div> */}
-      </Col>
-    </Row>
+      </div>
+    </div>
   );
 };
 export default Resetpassword;

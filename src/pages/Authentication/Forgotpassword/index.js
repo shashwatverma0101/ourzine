@@ -15,6 +15,8 @@ import Loader from "../../../components/loader/Loader";
 import { toast } from "react-toastify";
 import { isLogin } from "../../../utils";
 import * as $ from "jquery";
+import './Forgotpassword.css';
+import LoginEmail from "../../../Image/LoginEmail.svg";
 
 const Forgotpassword = () => {
   const [email, setEmail] = useState("");
@@ -50,46 +52,25 @@ const Forgotpassword = () => {
   };
 
   return (
-    <Row>
+    <div className="fpasstopdiv">
       {isLoading ? <Loader /> : ""}
-      <Col span={12}>
-        <div
-          style={{
-            color: "white",
-            height: "967px",
-            display: "block",
-            backgroundColor: "#429f97",
-            borderTopRightRadius: "20px",
-            borderBottomRightRadius: "20px",
-          }}
-        >
+      <div className="fpassleftcontainer">
+        <div className="fpassleftchild" >
+          <div>
+            <img src={Ourzinelogo} className="fpassleftlogo" />
+          </div>
+          </div>
           <div>
             <img
-              src={Ourzinelogo}
-              style={{ height: "140px", width: "100%", marginTop: "70px" }}
-            />
+              src={Girlvector} className="fpassgirlvector" />
           </div>
-
-          <div>
-            <img
-              src={Girlvector}
-              style={{ height: "463px", width: "100%", marginTop: "115px" }}
-            />
-          </div>
-        </div>
-      </Col>
-      <Col span={12}>
-        <div class="imagecontainer">
-          {/* <div id="ic"> */}
-          <svg style={{ width: "100%", height: "962" }}>
-            <rect
-              width="100%"
-              height="960"
-              style={{ fill: "#FFFFF0", strokeWidth: "0", stroke: "rgb(0,0,0)" }}
-            />
-          </svg>
-          <div class="textcentered" style={{ width: "auto", top: "43%" }}>
-            <h1
+        
+      </div>
+      <div className="fpassrightcontainer">
+        
+          <div className="fpassrightchild">
+          <div className="fpassrightchildcontent" >
+            <h3
               style={{
                 color: "#429f97",
                 fontWeight: "700px",
@@ -100,8 +81,36 @@ const Forgotpassword = () => {
               }}
             >
               Forgot Password
-            </h1>
-
+            </h3>
+            </div>
+            <div className="fpassrightchildsmallcontent">
+            <h3
+              style={{
+                color: "#429f97",
+                fontWeight: "700px",
+                fontSize: "24px",
+                fontWeight: "700",
+                marginLeft: "auto",
+                marginRight: "auto",
+                // marginBottom: "98px",
+              }}
+            >
+              Welcome, Writer!
+            </h3>
+            <p
+              style={{
+                color: "#429f97",
+                fontWeight: "700px",
+                fontSize: "12px",
+                fontWeight: "300",
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginBottom: '20px'
+              }}
+            >
+              Reset link would be sent on your Email
+            </p>
+            </div>
             <Form
               name="normal_login"
               className="login-form"
@@ -119,7 +128,7 @@ const Forgotpassword = () => {
                     fontSize: "21px",
                     padding: "9px 9px 9px 19px",
                     borderRadius: "7px",
-                    width: "345px",
+                    // width: "345px",
                     marginLeft: "auto",
                     marginRight: "auto",
                     backgroundColor: "#c9e3e1",
@@ -127,18 +136,18 @@ const Forgotpassword = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   size="large"
-                  className="site-form-item-icon1"
+                  className="site-form-item-icon1 fpassemail"
                   prefix={
-                    <MailOutlined
+                    <img src={LoginEmail}
                       className="site-form-item-icon"
-                      style={{ color: "#429f97" }}
+                      style={{ color: "#429f97" ,width: '24px'}}
                     />
                   }
                   placeholder="Email"
                 />
               </Form.Item>
 
-              <Form.Item style={{ marginTop: "-12px" }}>
+              <Form.Item className="fpassinstr" style={{ marginTop: "-12px" }}>
                 <Link to={`/Forgotpassword`}>
                   <a
                     className="login-form-forgot"
@@ -174,12 +183,28 @@ const Forgotpassword = () => {
                   Submit{" "}
                 </Button>
               </Form.Item>
+              <div className="fpasssmallforgotpass" >
+                <Link to={`/signin`}>
+                  <a
+                    className="login-form-forgot"
+                    href=""
+                    style={{
+                      color: "#429f97",
+                      fontWeight: "300",
+                      fontSize: "12px"
+                    }}
+                  >
+                    Go back to Login
+                  </a>
+                </Link>
+              </div>
             </Form>
-          </div>
+            
+          
         </div>
         {/* </div> */}
-      </Col>
-    </Row>
+      </div>
+    </div>
   );
 };
 export default Forgotpassword;

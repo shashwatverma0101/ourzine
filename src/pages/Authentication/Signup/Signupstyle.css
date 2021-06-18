@@ -1,29 +1,178 @@
-/* .right {
-    width: 100%;
-    height: 100%;
-    background: #F9F9F9;
-    right: 0;
-    position: absolute;
+@media (max-height:714px) {
+  .signupgirlvector{
+    height:144px !important;
+  }
+}
+@media (max-height:624px) {
+  .signupgirlvector{
+    height:90px !important;
+  }
+}
+@media (max-height:568px) {
+  .signupgirlvector{
+    height:76px !important;
+  }
 }
 
-#ic {
-    width: 250px;
-    margin: 0 auto;
-    top: 50%;
-    margin-top: -162px;
-    position: absolute;
-    left: 50%;
-    margin-left: -125px;
-    text-align: center;
-} */
-.imagecontainer {
-    position: relative;
+
+@media  (min-width: 465px) and (max-width: 767px) {
+  .signuppasswordinstr{    
+    text-align: center !important;
+    width:85% !important;
+    margin-left: 37px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .signuptopdiv {
+    display:block !important;
+    background-color: #ffffff !important;
+  }
+  .signupgirlvector{
+    display: block !important;
+  }
+  .signupleftchildcontent{
+    display: none !important;
+  }
+  .signupleftchild{
+    padding-top: 30px !important;
+  }
+  .signupleftcontainer{
+    height: auto !important;
+    width :100% !important;
+    border-bottom-left-radius: 20px !important;
+    border-top-right-radius: 0px !important;
+  }
+  .signupleftlogo{
+    height: 70px !important;
+  }
+  .signuprightcontainer{
+    width :100% !important;
+  }
+  .signuprightchild{
+    padding-top: 30px !important;
+  }
+  .signuprightchildcontent{
+    display: none !important;
+  }
+  .signuprightchildsmallcontent{
+    display: block !important;
+  }
+  .signupforgotpass{
+    display: none !important;
+  }
+  .signupsmallforgotpass{
+    display: block !important;
+  }
+  .signupemail{
+    width: 78% !important;
+  }
+  .signuppassword{
+    width: 78% !important;
+  }
+  .signupterms{
+    display: none !important;
+  }
+  .signuppasswordinstr{
+    font-size: 11px;
+    color: rgb(201, 227, 225);
+    margin-top: -15px;
+    width: 70%;
+    margin-left: 48px;
+    text-align: left;
+    margin-bottom: 30px;
+  }
+}
+
+.signuprightcontainer {
+    /* position: relative; */
     text-align: center;
     color: white;
+    width:50%;
   }
-.textcentered {
-    position: absolute;
+.signuprightchild {
+  text-align: center;
+    padding-top:150px;
+    /* position: absolute;
     top: 50%;
     left: 50%;
+    transform: translate(-50%, -50%); */
+  }
+
+  .signupleftcontainer{
+    color: white;
+    height: 100vh;
+    display: block;
+    background-color: #429f97;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    width:50%;
+  }
+  .signuprightcontainer {
+    /* position: relative; */
+    text-align: center;
+    color: white;
+    width:50%;
+  }
+  .signuprightchild {
+    text-align: center;
+    padding-top:150px;
+    /* position: absolute;
+    top: 40%;
+    left: 50%;
     transform: translate(-50%, -50%);
+    width:auto; */
+  }
+.signupleftchild{
+  text-align: center;
+  padding-top:150px;
+  /* width: auto;  */
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+  /* margin-top: 15px; */
+  /* position: absolute;
+  left: 33%;
+  position: absolute;
+  top: 34%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+  }
+.signupleftlogo{
+  height: 140px; width: 100%; 
+  }
+  .signuptopdiv{
+    display:flex;
+    width:100%;
+    background-color: #fffff0;
+  }
+  .signupgirlvector{
+    height: 233px;
+    width: 100%;
+    display: none;
+  }
+  .signuprightchildsmallcontent{
+    display: none;
+  }
+  .signupsmallforgotpass{
+    margin-right: 50px;
+    margin-top: -12px;
+    margin-left: 50px;
+    display:none;
+    /* flex-wrap:wrap; */
+    /* width:100%; */
+  }
+  .signupemail{
+    width: 345px;
+  }
+  .signuppassword{
+    width: 345px;
+  }
+  .signuppasswordinstr{
+    font-size: 11px;
+    color: rgb(201, 227, 225);
+    margin-top: -12px;
+    /* width: 70%;
+    margin-left: 65px;
+    text-align: left;
+    margin-bottom: 30px; */
   }

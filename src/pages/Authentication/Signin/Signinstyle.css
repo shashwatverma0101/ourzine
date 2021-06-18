@@ -1,38 +1,64 @@
-/* .right {
-    width: 100%;
-    height: 100%;
-    background: #F9F9F9;
-    right: 0;
-    position: absolute;
+@media (max-height:675px) {
+  .signingirlvector{
+    height:144px !important;
+  }
 }
 
-#ic {
-    width: 250px;
-    margin: 0 auto;
-    top: 50%;
-    margin-top: -162px;
-    position: absolute;
-    left: 50%;
-    margin-left: -125px;
-    text-align: center;
-} */
-/* .imagecontainer {
-    position: relative;
-    text-align: center;
-    color: white;
+@media (max-height:568px) {
+  .signingirlvector{
+    height:120px !important;
+  }
+}
     
-  }
-.textcentered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .div1 {
-    width: 100%;
-    height: 962px;
-    border: 1px solid blue;
-  } */
+    
+    @media (max-width: 767px) {
+      .signintopdiv {
+        display:block !important;
+        background-color: #ffffff !important;
+      }
+      .signingirlvector{
+        display: block !important;
+      }
+      .signinleftchildcontent{
+        display: none !important;
+      }
+      .signinleftchild{
+        padding-top: 30px !important;
+      }
+      .signinleftcontainer{
+        height: auto !important;
+        width :100% !important;
+        border-bottom-left-radius: 20px !important;
+        border-top-right-radius: 0px !important;
+      }
+      .signinleftlogo{
+        height: 70px !important;
+      }
+      .signinrightcontainer{
+        width :100% !important;
+      }
+      .signinrightchild{
+        padding-top: 30px !important;
+      }
+      .signinrightchildcontent{
+        display: none !important;
+      }
+      .signinrightchildsmallcontent{
+        display: block !important;
+      }
+      .signinforgotpass{
+        display: none !important;
+      }
+      .signinsmallforgotpass{
+        display: block !important;
+      }
+      .signinemail{
+        width: 78% !important;
+      }
+      .signinpassword{
+        width: 78% !important;
+      }
+    }
   .ant-input{
     background-color: #c9e3e1;
     margin-left: 11px;
@@ -69,4 +95,74 @@
     -webkit-text-fill-color:#429f97 !important;
     -webkit-background-clip: text;
    }
-  
+
+ 
+.signinleftcontainer{
+    color: white;
+    height: 100vh;
+    display: block;
+    background-color: #429f97;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    width:50%;
+  }
+  .signinrightcontainer {
+    /* position: relative; */
+    text-align: center;
+    color: white;
+    width:50%;
+  }
+  .signinrightchild {
+    text-align: center;
+    padding-top:150px;
+    /* position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width:auto; */
+  }
+.signinleftchild{
+  text-align: center;
+  padding-top:150px;
+  /* width: auto;  */
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+  /* margin-top: 15px; */
+  /* position: absolute;
+  left: 33%;
+  position: absolute;
+  top: 34%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+  }
+.signinleftlogo{
+  height: 140px; width: 100%; 
+  }
+  .signintopdiv{
+    display:flex;
+    width:100%;
+    background-color: #fffff0;
+  }
+  .signingirlvector{
+    height: 233px;
+    width: 100%;
+    display: none;
+  }
+  .signinrightchildsmallcontent{
+    display: none;
+  }
+  .signinsmallforgotpass{
+    margin-right: 50px;
+    margin-top: -12px;
+    margin-left: 50px;
+    display:none;
+    /* flex-wrap:wrap;
+    width:100%; */
+
+  }
+  .signinemail{
+    width: 345px;
+  }
+  .signinpassword{
+    width: 345px;
+  }

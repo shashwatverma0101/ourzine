@@ -201,16 +201,32 @@
   border-top: 0.2px solid #429f97;
 }
 
-.pdf-content-third, .pdf-content-fourth {
-  /* margin-top: 15px; */
-}
 
 .page-bottom {
   display: flex;
   justify-content: center;
-  /* margin-bottom: 0; */
+  margin-bottom: 20px;
+}
+.pdf-content {
+  margin: 25px 25px;
+  font-size: 14px;
+  white-space: pre-line;
+
 }
 
-.first-cord-bottom, .second-cord-bottom {
-  margin-bottom: 10px;
+.pdf-title {
+  display: flex;
+  margin-bottom: 0;
+  justify-content: center;
+  font-size: 25px;
+  white-space: pre-line;
+
+}
+
+.pdf-subtitle {
+  display: flex;
+  justify-content: center;
+  font-size: 20px;
+  white-space: pre-line;
+
 }

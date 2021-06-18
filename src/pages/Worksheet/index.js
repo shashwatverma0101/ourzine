@@ -133,20 +133,44 @@ const Worksheet = () => {
   };
 
   const handleChangeInput = (slide, event) => {
-    if (event.target.value.length <= 500) {
-      const newSheet = sheet.map((i) => {
-        if (slide == i.slide) {
-          i[event.target.name] = event.target.value;
-        }
-        return i;
-      });
+    let totalChar = "";
 
-      setSheet(newSheet);
+    const newSheet = sheet.map((i) => {
+      if (slide == i.slide) {
+        i[event.target.name] = event.target.value;
+      }
+
+      totalChar =  totalChar + i.para ;
+      return i;
+    });
+
+
+
+    for (
+      let i = 0, initialSubstr = 0;
+      i < Math.ceil(totalChar.length / 500);
+      i++
+    ) {
+      console.log(Math.ceil(totalChar.length / 500))
+      newSheet[i] = {
+        slide: i + 3,
+        para: totalChar.substr(initialSubstr, 500),
+      };
+      console.log({ initialSubstr });
+      initialSubstr = initialSubstr + 500;
+      // finalSubstr = finalSubstr + 500;
     }
-    if (event.target.value.length >= 500) {
-      if (totalSlide === currentSlide) handleAddSheet();
-      else setCurrentSlide(currentSlide+1);
-    }
+    
+    // setCurrentSlide(Math.ceil(totalChar.length/500) + 2)
+    setSheet(newSheet);
+    setTotalSlide(newSheet.length + 2)
+    setCurrentSlide(newSheet.length+ 2);
+
+
+    // if (event.target.value.length >= 500) {
+    //   if (totalSlide === currentSlide) handleAddSheet();
+    //   else setCurrentSlide(currentSlide+1);
+    // }
   };
 
   const handleAddSheet = () => {
@@ -720,7 +744,7 @@ const Worksheet = () => {
             {sheet?.map((slides) =>
               slides.slide === currentSlide ? (
                 <div className="site-layout" style={{}} key={slides.slide}>
-                  <form name="myform">
+                  <form name="myform" className = "dynamic-textarea-content">
                     <textarea
                       id={`#mytextarea-${slides.slide}`}
                       name="para"

@@ -16,6 +16,9 @@ import { toast } from "react-toastify";
 import { isLogin, LocalStorage } from "../../../utils";
 import Loader from "../../../components/loader/Loader";
 import * as $ from "jquery";
+import PasswordLock from "../../../Image/PasswordLock.svg";
+import LoginEmail from "../../../Image/LoginEmail.svg";
+
 
 const Signin = () => {
   const [email, setEmail] = useState("");
@@ -56,54 +59,32 @@ const Signin = () => {
   };
 
   return (
-    <Row>
+    <div className="signintopdiv" >
       {isLoading ? <Loader /> : ""}
-      <Col span={12} >
-        <div
-          style={{
-            color: "white",
-            height: "967px",
-            display: "grid",
-            backgroundColor: "#429f97",
-            borderTopRightRadius: "20px",
-            borderBottomRightRadius: "20px",
-          }}
-        >
+      {/* <div > */}
+        <div className="signinleftcontainer" >
           {/* <h3 style={{color:'#F5F5F5',fontSize:'27px',textAlign:'center',marginTop:'45px'}}>What is Ourzine?</h3> */}
-          <div>
-            <img
-              src={Ourzinelogo}
-              style={{ height: "140px", width: "100%", marginTop: "118px" }}
-            />
-          </div>
-
-          <div
-            style={{
-              width: "auto",
-              marginLeft: "auto",
-              marginRight: "auto",
-              textAlign: "center",
-              marginTop: "15px",
-            }}
-          >
+          
+          <div className="signinleftchild">
+              <div>
+            <img src={Ourzinelogo}
+              className="signinleftlogo" />
+              </div>
+            <div className="signinleftchildcontent">
             <h1
-              style={{ color: "#F5F5F5", fontSize: "40px", fontWeight: "700" }}
-            >
+              style={{ color: "#F5F5F5", fontSize: "40px", fontWeight: "700" }}>
               Welcome,Writer!
             </h1>
             <p
-              style={{ marginTop: "-10px", fontSize: "17px", color: "#C9E3E1" }}
-            >
+              style={{ marginTop: "-10px", fontSize: "17px", color: "#C9E3E1" }}>
               Enter your credentials to access Ourzine{" "}
             </p>
             <p
-              style={{ fontSize: "20px", color: "#F5F5F5", marginTop: "-10px" }}
-            >
+              style={{ fontSize: "20px", color: "#F5F5F5", marginTop: "-10px" }}>
               <b>OR</b>
             </p>
             <p
-              style={{ marginTop: "-10px", fontSize: "17px", color: "#C9E3E1" }}
-            >
+              style={{ marginTop: "-10px", fontSize: "17px", color: "#C9E3E1" }}>
               Create an account{" "}
             </p>
             <Link to={`/signup`}>
@@ -128,22 +109,24 @@ const Signin = () => {
               </Button>
             </Link>
           </div>
+          </div>
           <div>
-            <img src={Girlvector} style={{ height: "458px", width: "100%" }} />
+            <img src={Girlvector} className="signingirlvector"/>
           </div>
         </div>
-      </Col>
-      <Col span={12}>
-        <div class="imagecontainer">
+      {/* </div> */}
+      {/* <div > */}
+        <div className="signinrightcontainer">
           {/* <div id="ic"> */}
-          <svg style={{ width: "100%", height: "962" }}>
+          {/* <svg style={{ width: "100%", height: "962" }}>
             <rect
               width="100%"
               height="960"
               style={{ fill: "#FFFFF0", strokeWidth: "0", stroke: "rgb(0,0,0)" }}
             />
-          </svg>
-          <div class="textcentered" style={{ width: "auto", top: "40%" }}>
+          </svg> */}
+          <div className="signinrightchild" >
+            <div className="signinrightchildcontent">
             <h3
               style={{
                 color: "#429f97",
@@ -169,7 +152,35 @@ const Signin = () => {
             >
               Login to Ourzine
             </h1>
-
+            </div>
+            <div className="signinrightchildsmallcontent">
+            <h3
+              style={{
+                color: "#429f97",
+                fontWeight: "700px",
+                fontSize: "24px",
+                fontWeight: "700",
+                marginLeft: "auto",
+                marginRight: "auto",
+                // marginBottom: "98px",
+              }}
+            >
+              Welcome, Writer!
+            </h3>
+            <p
+              style={{
+                color: "#429f97",
+                fontWeight: "700px",
+                fontSize: "12px",
+                fontWeight: "300",
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginBottom: '20px'
+              }}
+            >
+              Enter your credentials to access Ourzine
+            </p>
+            </div>
             <Form
               name="normal_login"
               className="login-form"
@@ -187,17 +198,16 @@ const Signin = () => {
                     fontSize: "21px",
                     padding: "9px 9px 9px 19px",
                     borderRadius: "7px",
-                    width: "345px",
                     marginLeft: "auto",
                     marginRight: "auto",
                     backgroundColor: "#c9e3e1",
                   }}
                   size="large"
-                  className="site-form-item-icon1"
+                  className="site-form-item-icon1 signinemail"
                   prefix={
-                    <MailOutlined
+                    <img src={LoginEmail}
                       className="site-form-item-icon"
-                      style={{ color: "#429f97" }}
+                      style={{ color: "#429f97",width: '24px' }}
                     />
                   }
                   placeholder="Email"
@@ -214,19 +224,19 @@ const Signin = () => {
               >
                 <Input.Password
                   size="large"
+                  className="site-form-item-icon1 signinpassword"
                   style={{
                     fontSize: "21px",
                     padding: "9px 15px 9px 19px",
                     borderRadius: "7px",
-                    width: "345px",
                     marginLeft: "auto",
                     marginRight: "auto",
                     backgroundColor: "#c9e3e1",
                   }}
                   prefix={
-                    <LockOutlined
+                    <img src={PasswordLock}
                       className="site-form-item-icon"
-                      style={{ color: "#429f97" }}
+                      style={{ color: "#429f97",width: '24px' }}
                     />
                   }
                   type="password"
@@ -235,7 +245,7 @@ const Signin = () => {
                 />
               </Form.Item>
 
-              <Form.Item style={{ marginTop: "-7px" }}>
+              <Form.Item style={{ marginTop: "-7px" }} className="signinforgotpass" >
                 <Link to={`/Forgotpassword`}>
                   <a
                     className="login-form-forgot"
@@ -271,12 +281,46 @@ const Signin = () => {
                   Login{" "}
                 </Button>
               </Form.Item>
+              <div className="signinsmallforgotpass" >
+              <Link to={`/signup`}
+              //  style={{width:'50%',paddingRight: '35px'}}
+                >
+                  <a
+                    className="login-form-forgot"
+                    href=""
+                    style={{
+                      color: "#429f97",
+                      fontWeight: "300",
+                      fontSize: "12px",
+                      float:'left'
+                    }}
+                  >
+                    Sign Up
+                  </a>
+                </Link>
+                <Link to={`/Forgotpassword`}
+                // style={{width:'50%'}}
+                 >
+                  <a
+                    className="login-form-forgot"
+                    href=""
+                    style={{
+                      color: "#429f97",
+                      fontWeight: "300",
+                      fontSize: "12px",
+                      float:'right'
+                    }}
+                  >
+                    Forgot password ?
+                  </a>
+                </Link>                
+              </div>
             </Form>
           </div>
         </div>
         {/* </div> */}
-      </Col>
-    </Row>
+      {/* </div> */}
+    </div>
   );
 };
 export default Signin;
