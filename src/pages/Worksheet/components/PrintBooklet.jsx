@@ -10,11 +10,12 @@ class PrintBooklet extends React.PureComponent {
         <div className="pdf-container">
           {bookLet.map((cord) => (
             <>
-              {cord.front.first.slide !== "" ? (
+              {cord.front.first.slide !== "" || cord.front.third.slide !== "" || cord.back.second.slide !== ""  ||
+              cord.back.fourth.slide !== ""? (
                 <>
                   <div className="pdf-first-cord">
                     <p className="pdf-content">{cord.back.fourth.para}</p>
-                    <p className="page-bottom">
+                    <p className="page-bottom"> 
                       {cord.back.fourth.isCover
                         ? cord.back.fourth.type
                         : cord.back.fourth.slide - 2 > 0
@@ -25,7 +26,7 @@ class PrintBooklet extends React.PureComponent {
                   <div className="pdf-second-cord">
                     {
                     !cord.front.first.isCover ? (
-                      <p className="pdf-content">{cord.front.first.para}</p>
+                      <p className="pdf-content" >{cord.front.first.para}</p>
                     ) : (
                       <div style={{ display: "flex", flexDirection: "column" }}>
                         <h1 className="pdf-title pdf-content">
@@ -47,7 +48,7 @@ class PrintBooklet extends React.PureComponent {
                   </div>
                   <div className="pdf-third-cord">
                     <p className="pdf-content">{cord.back.second.para}</p>
-                    <p className="page-bottom">
+                    <p className="page-bottom"> {console.log(cord.front)}
                       {cord.back.second.isCover
                         ? cord.back.second.type
                         : cord.back.second.slide - 2 > 0
@@ -70,19 +71,10 @@ class PrintBooklet extends React.PureComponent {
                 ""
               )}
 
-              {cord.back.first.slide !== "" ? (
+              {cord.back.first.slide !== "" || cord.back.third.slide !== ""  ||
+              cord.front.second.slide !== "" || cord.front.fourth.slide !== ""? (
                 <>
-                  <div className="pdf-first-cord">
-                    <p className="pdf-content">{cord.back.third.para}</p>
-                    <p className="page-bottom">
-                      {cord.back.third.isCover
-                        ? cord.back.third.type
-                        : cord.back.third.slide - 2 > 0
-                        ? cord.back.third.slide - 2
-                        : ""}
-                    </p>
-                  </div>
-                  <div className="pdf-second-cord">
+                 <div className="pdf-first-cord">
                     <p className="pdf-content">{cord.front.second.para}</p>
                     <p className="page-bottom ">
                       {" "}
@@ -93,17 +85,19 @@ class PrintBooklet extends React.PureComponent {
                         : ""}
                     </p>{" "}
                   </div>
-                  <div className="pdf-third-cord">
-                    <p className="pdf-content">{cord.back.first.para}</p>
+
+                  <div className="pdf-second-cord">
+                    <p className="pdf-content">{cord.back.third.para}</p>
                     <p className="page-bottom">
-                      {cord.back.first.isCover
-                        ? cord.back.first.type
-                        : cord.back.first.slide - 2 > 0
-                        ? cord.back.first.slide - 2
+                      {cord.back.third.isCover
+                        ? cord.back.third.type
+                        : cord.back.third.slide - 2 > 0
+                        ? cord.back.third.slide - 2
                         : ""}
-                    </p>{" "}
+                    </p>
                   </div>
-                  <div className="pdf-fourth-cord">
+
+                  <div className="pdf-third-cord">
                     <p className="pdf-content">{cord.front.fourth.para}</p>
                     <p className="page-bottom ">
                       {cord.front.fourth.isCover
@@ -113,6 +107,18 @@ class PrintBooklet extends React.PureComponent {
                         : ""}
                     </p>{" "}
                   </div>
+             
+                  <div className="pdf-fourth-cord">
+                    <p className="pdf-content">{cord.back.first.para}</p>
+                    <p className="page-bottom">
+                      {cord.back.first.isCover
+                        ? cord.back.first.type
+                        : cord.back.first.slide - 2 > 0
+                        ? cord.back.first.slide - 2
+                        : ""}
+                    </p>{" "}
+                  </div>
+                
                 </>
               ) : (
                 ""

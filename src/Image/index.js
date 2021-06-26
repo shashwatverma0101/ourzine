@@ -23,6 +23,7 @@ import ArrowRightDisable from './Arrow-Right-Disable.svg'
 import EditSquareGreen from "./EditSquareGreen.svg";
 import Logout from "./Logout.svg";
 import Sliderleft from "./Sliderleft.svg";
+import Sliderright from './Sliderright.svg'
 import Ourzinelogo from "./ourzinelogo.svg";
 
 
@@ -50,6 +51,7 @@ export {
   EditSquareGreen,
   Logout,
   Sliderleft,
+  Sliderright,
   Ourzinelogo,
   ArrowLeftDisable,
   ArrowRightDisable

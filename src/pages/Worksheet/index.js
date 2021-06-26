@@ -42,6 +42,7 @@ import {
   Ourzinelogo,
   ArrowLeftDisable,
   ArrowRightDisable,
+  Sliderright
 } from "../../Image";
 
 const { Header, Sider, Content } = Layout;
@@ -77,6 +78,7 @@ const Worksheet = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteSheetModal, setShowDeleteSheetModal] = useState(false);
   const [textsizes, settextsizes] = useState(20);
+  const [isSlideOpen, setIsSlideOpen] = useState(true)
   const history = useHistory();
 
   const toggle = () => {
@@ -126,6 +128,7 @@ const Worksheet = () => {
   }, [resetSheet]);
 
   const sliderchange = () => {
+    setIsSlideOpen(!isSlideOpen)
     toggle();
     $(".box").animate({
       width: "toggle",
@@ -145,7 +148,7 @@ const Worksheet = () => {
     });
 
 
-
+    if(event.target.value.length >=  500){
     for (
       let i = 0, initialSubstr = 0;
       i < Math.ceil(totalChar.length / 500);
@@ -158,13 +161,20 @@ const Worksheet = () => {
       };
       console.log({ initialSubstr });
       initialSubstr = initialSubstr + 500;
+       setCurrentSlide(newSheet.length+ 2);
+      setTotalSlide(newSheet.length + 2)
+
+
       // finalSubstr = finalSubstr + 500;
     }
-    
-    // setCurrentSlide(Math.ceil(totalChar.length/500) + 2)
+
+    }
+
     setSheet(newSheet);
-    setTotalSlide(newSheet.length + 2)
-    setCurrentSlide(newSheet.length+ 2);
+
+    // setCurrentSlide(Math.ceil(totalChar.length/500) + 2)
+    // setTotalSlide(newSheet.length + 2)
+    // setCurrentSlide(newSheet.length+ 2);
 
 
     // if (event.target.value.length >= 500) {
@@ -172,6 +182,8 @@ const Worksheet = () => {
     //   else setCurrentSlide(currentSlide+1);
     // }
   };
+
+//text should be justified
 
   const handleAddSheet = () => {
     if (totalSlide < 64) {
@@ -631,7 +643,7 @@ const Worksheet = () => {
           style={{ position: "relative", top: "40%", maxHeight: "130px" }}
         >
           <img
-            src={Sliderleft}
+            src={isSlideOpen ?  Sliderleft : Sliderright}
             onClick={sliderchange}
             style={{ marginLeft: "-2px" }}
           />

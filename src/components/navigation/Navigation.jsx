@@ -89,7 +89,7 @@ const Navigation = ({ isEdit, currentUser, fetchCurrentUser }) => {
 
     <div style={{ backgroundColor: "#fffff0" }}>
       <div className="navbar">
-        <img src={Ourzinelogo} style={{ height: "76px" }} />
+        <img src={Ourzinelogo} style={{ height: "50px" , marginTop : "15px"}} />
         <div>
           {isEdit ? (
             <>

@@ -90,7 +90,7 @@ const Profile = ({ currentUser, updateCurrentUser }) => {
       .then((res) => {
         setIsLoading(false);
         if (res.data.result === "invalid")
-          return toast.error("Password is incorrect");
+          return toast.error("Current Password is incorrect");
         if (res.data.result === "error")
           return toast.error("Something went wrong");
         if (res.data.result === true) {
