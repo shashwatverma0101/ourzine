@@ -1,0 +1,152 @@
+
+  /* Delete popup */
+/* The Modal (background) */
+.modal2 {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+   
+  /* Modal Content */
+  .modal-content2 {
+    position: relative;
+    background-color: #FFFFF0;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #429F97;
+    width: 350px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    height:450px;
+    border-radius: 16px;
+    margin-top:130px;
+  }
+   
+  /* Add Animation */
+  @-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+  }
+   
+  @keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+  }
+   
+  /* The Close Button */
+  .closepopup {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+   
+  .closepopup:hover,
+  .closepopup:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+   
+  .modal-header2 {
+    padding: 5px 8px;
+    background-color: #FFFFF0;
+    color: white;
+    height:20px;
+    border-radius: 16px;
+  }
+   
+  .modal-body2 {padding: 56px;}
+   
+  .modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+  }
+   
+  .popupbody2{
+    background: #FFFFF0;
+      width: 100%;
+      height: 290px;
+      max-width: 100%;
+      text-align: center;
+  }
+  /* text-align: center;
+    max-width: 155px;
+    height: 200px;
+    margin-left: 0px;
+    background-color: white;
+    max-height:200px;
+    font-size:5px;
+    min-height: 200px;
+    padding:6px */
+   
+    .generatelayout{
+      width:96%;
+      max-width: 96%;
+      height:264px;
+      max-height: 264px;
+      min-height: 264px;
+      background-color:white;
+      border: 1px solid #429F97;
+      font-size:5px; text-align: center;
+      padding: 6px;
+    }
+   
+  .popupbody2 ul li{
+    width:50%;
+    height:264px;
+      margin-top: 10px;
+    }
+   .popupbody2 ul{
+    display:flex;
+    flex-wrap:wrap;
+    height: 565px;
+      overflow: hidden;
+      overflow-y: scroll;
+      list-style-type:  none;
+      margin-top: 7px;
+      padding:20px; 
+      width:103%;
+      padding-top: 7px;
+    }
+    .close2{
+      float: right;
+      height:14px;
+    }
+    /* Scrollbar custom */
+  /* width */
+  .popupbody2 ul::-webkit-scrollbar {
+    width: 4px;
+  }
+  /* Track */
+  .popupbody2 ul::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #429F97; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  .popupbody2 ul::-webkit-scrollbar-thumb {
+    background: #429F97; 
+    border-radius: 10px;
+  }
+   
+  /* Handle on hover */
+  .popupbody2 ul::-webkit-scrollbar-thumb:hover {
+    background: #429F97; 
+  }
+  /* Scrollbar custom */
+  /* Delete popup */
+  
+

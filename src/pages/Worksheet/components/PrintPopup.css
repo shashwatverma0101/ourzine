@@ -1,0 +1,232 @@
+/* Print popup */
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #c9e3e1;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #429f97;
+  width: 600px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+  height: 730px;
+  border-radius: 16px;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+/* The Close Button */
+.closepopup {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.closepopup:hover,
+.closepopup:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.modal-body {
+  padding: 25px;
+}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.popupbody {
+  background: white;
+  width: 100%;
+  height: 568px;
+  max-width: 100%;
+  border: 1px solid #429f97;
+}
+.generatelayout1 {
+  width: 49%;
+  /* max-width: 48%; */
+  height: 259px;
+  max-height: 259px;
+  min-height: 259px;
+  background-color: white;
+  border: 1px solid #429f97;
+  font-size: 5px;
+  text-align: center;
+  padding: 6px;
+  margin-top: 0px;
+  position: relative;
+  /* margin-right: 10px; */
+}
+
+.popupbody ul li {
+  width: 98%;
+  height: auto;
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid #429f97;
+}
+.popupbody ul {
+  display: flex;
+  flex-wrap: wrap;
+  height: 566px;
+  overflow: hidden;
+  overflow-y: scroll;
+  list-style-type: none;
+  /* margin-top: 7px; */
+  padding: 4px 22px 10px 26px;
+  width: 102%;
+  /* padding-top: 7px; */
+  /* border: 1px solid #429F97; */
+}
+
+/* Scrollbar custom */
+/* width */
+.popupbody ul::-webkit-scrollbar {
+  width: 4px;
+}
+/* Track */
+.popupbody ul::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #429f97;
+  border-radius: 10px;
+}
+
+/* Handle */
+.popupbody ul::-webkit-scrollbar-thumb {
+  background: #429f97;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+.popupbody ul::-webkit-scrollbar-thumb:hover {
+  background: #429f97;
+}
+/* Scrollbar custom */
+/* Print popup */
+
+.pdf-container {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100vh;
+}
+
+.pdf-first-cord {
+  width: 50%;
+  height: 50%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  border-right: 0.2px solid #429f97;
+  border-bottom: 0.2px solid #429f97;
+}
+
+.pdf-second-cord {
+  width: 50%;
+  height: 50%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;  
+  border-left: 0.2px solid #429f97;
+  border-bottom: 0.2px solid #429f97;
+}
+
+.pdf-third-cord {
+  width: 50%;
+  height: 50%;
+  border-right: 0.2px solid #429f97;
+  border-top: 0.2px solid #429f97;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;  border-top: 0.2px solid #429f97;
+}
+
+.pdf-fourth-cord {
+  width: 50%;
+  height: 50%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  border-left: 0.2px solid #429f97;
+  border-top: 0.2px solid #429f97;
+}
+
+
+.page-bottom {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.pdf-content {
+  margin: 25px 25px;
+  font-size: 14px;
+  white-space: pre-line;
+
+}
+
+.pdf-title {
+  display: flex;
+  margin-bottom: 0;
+  justify-content: center;
+  font-size: 25px;
+  white-space: pre-line;
+
+}
+
+.pdf-subtitle {
+  display: flex;
+  justify-content: center;
+  font-size: 20px;
+  white-space: pre-line;
+
+}

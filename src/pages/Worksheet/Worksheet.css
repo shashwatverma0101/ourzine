@@ -1,0 +1,400 @@
+#components-layout-demo-custom-trigger .trigger {
+  padding: 0 24px;
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+#components-layout-demo-custom-trigger .trigger:hover {
+  color: #1890ff;
+}
+
+#components-layout-demo-custom-trigger .logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.site-layout .site-layout-background {
+  background: #fff;
+}
+.header {
+  background-color: white;
+}
+
+#mainleftnav,#mainleftnav-1 {
+  display: block;
+  width: 63px;
+  background-color: #30746e;
+  min-width: 63px;
+}
+/* Style the buttons */
+.leftcontents {
+  border: none;
+  outline: none;
+  padding: 3px 0px;
+  background-color: #30746e;
+  cursor: pointer;
+  font-size: 11px;
+  color: white;
+  border-left: 4px solid #30746e;
+  margin-top: 20px;
+  width: 100%;
+  height: 75px;
+  display: grid;
+}
+
+/* Style the active class, and buttons on mouse-over */
+.active,
+.leftcontents:hover {
+  background-color: #30746e;
+  color: white;
+  border-left: 4px solid white;
+}
+.ant-layout {
+  flex-direction: unset;
+}
+
+/* For Left Navigation dropdown */
+
+/* Slider */
+
+.box, .box-1 {
+  float: left;
+  overflow: hidden;
+  background: #429f97;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+/* Add padding and border to inner content
+for better animation effect */
+.box-inner {
+  width: 350px;
+  padding: 10px;
+  /* border: 1px solid #a29415; */
+}
+/* SlideTogglebutton */
+
+.slide-togglebutton {
+  height: 50px;
+}
+
+.slidebtn {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  background: red;
+  clip-path: polygon(
+    0 -1237%,
+    10% 0,
+    85% 0,
+    100% 24%,
+    100% 77%,
+    88% 100%,
+    10% 1000%,
+    0% 3534%,
+    85% 36%
+  );
+}
+
+/* Center Page */
+
+.site-layout {
+  /* margin-left: 285px; */
+  max-width: 54%;
+  /* margin: 24px 16px 0px 360px; */
+  margin-top: 24px;
+  margin-right: 25px;
+  margin-bottom: 0px;
+  margin-left: 25px;
+  padding: 50px;
+  max-height: 803px;
+  flex: auto;
+  background-color: white;
+  outline: none;
+  border: 1px solid #30746e;
+}
+/* For Sheet TextArea */
+.maintextarea {
+  width: 100%;
+  height: 616px;
+  border: 0px;
+  font-size: 24px;
+  resize: none;
+  text-align: center;
+  /* margin-top:20px; */
+}
+.maintextarea:focus-visible {
+  outline: unset;
+}
+.maintextarea::placeholder {
+  text-align: center;
+  color: black;
+}
+
+.maintextarea-dynamic {
+  width: 100%;
+  height: 616px;
+  border: 0px;
+  font-size: 24px;
+  resize: none;
+  text-align: left;
+  /* margin-top:20px; */
+}
+.maintextarea-dynamic:focus-visible {
+  outline: unset;
+}
+.maintextarea-dynamic::placeholder {
+  text-align: left;
+}
+
+.textareaheading {
+  width: 100%;
+  font-size: 36px;
+  text-align: center;
+  height: 70px;
+  border: 0px;
+  resize: none;
+}
+.textareaheading:focus-visible {
+  outline: unset;
+}
+/* For Sheet TextArea */
+.countcharacters {
+  float: right;
+  /* width: 24%; */
+  font-size: 17px;
+  font-weight: bold;
+  color: #30746e;
+  margin-top: 41px;
+  margin-right: -49px;
+}
+
+.sidearrow {
+  top: 83%;
+  text-align: end;
+  position: relative;
+  width: 20%;
+  max-height: 80px;
+}
+.sidearrow1 {
+  top: 81%;
+  max-height: 80px;
+  position: relative;
+  text-align: left;
+  width: 20%;
+}
+.leftarrow {
+  position: relative;
+}
+.leftarrow div {
+  position: absolute;
+  left: 86%;
+  top: 23%;
+}
+.rightarrow {
+  position: relative;
+}
+.rightarrow div {
+  position: absolute;
+  left: 8%;
+  top: 29%;
+}
+
+/* for scrollable effect on left */
+.box-inner ul li {
+  margin-top: 18px;
+}
+.small-left-layout {
+  width: -webkit-fill-available;
+  text-align: center;
+  max-width: 155px;
+  height: 200px;
+  margin-left: 0px;
+  background-color: white;
+  max-height: 200px;
+  font-size: 5px;
+  min-height: 200px;
+  padding: 6px;
+  position: relative;
+}
+.box-inner ul li::marker {
+  color: white;
+}
+
+/* for scrollable effect on left */
+
+/* Scrollbar custom */
+/* width */
+.box-inner ul::-webkit-scrollbar {
+  width: 4px;
+}
+/* Track */
+.box-inner ul::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+.box-inner ul::-webkit-scrollbar-thumb {
+  background: #c9e3e1;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+.box-inner ul::-webkit-scrollbar-thumb:hover {
+  background: #c9e3e1;
+}
+/* Scrollbar custom */
+
+.alerttext {
+  text-align: center;
+  background-color: #eb5757;
+  margin-top: -9px;
+  height: 28px;
+  margin-left: -20px;
+  font-weight: 500;
+  color: #303942;
+  font-size: 16px;
+}
+
+.left-layout-para::-webkit-scrollbar {
+  display: none;
+}
+
+.zoombuttons {
+  top: 155%;
+  max-height: 35px;
+  position: relative;
+  text-align: left;
+  width: 85%;
+  margin-left: -18px;
+  display: flex;
+}
+
+.textareaheading::placeholder {
+  color: black;
+}
+
+.slidertext .ant-slider-rail {
+  height: 2px;
+  background-color: #c9e3e1 !important;
+}
+.slidertext .ant-slider-track {
+  height: 2px;
+  background-color: #429f97 !important;
+}
+.slidertext .ant-slider:hover {
+  background-color: #c9e3e1;
+}
+.slidertext .ant-slider-handle {
+  background-color: #c9e3e1;
+  border: 1px solid #429f97;
+  width: 10px;
+  height: 10px;
+}
+
+@media (max-width: 767px) {
+  #mainleftnav {
+    display: none;
+  }
+  .box {
+    display: none;
+  }
+
+  .slider-left {
+    display: none;
+  }
+
+  .sidearrow{
+    display: none;
+  }
+
+  .sidearrow1 {
+    display: none;
+  }
+
+  .ant-layout {
+    height: 100vh !important;
+  }
+
+  .site-layout {
+    max-width: 100%;
+    max-height: 100%;
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.small-left-layout-container{
+  display: flex;
+  width: 100%;
+  margin-left: -32px;
+}
+.leftpreviewheading{
+  text-align: center;
+  font-size: 8px;
+  max-width: 26px;
+  margin-right: 7px;
+  color:#FFFFFF;
+  min-width: 26px;
+}
+
+#mainleftnav-1 {
+  display: none;
+}
+.box-1 {
+  display: none;
+}
+
+.slider-left-1 {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .countcharacters {
+    display: none;
+  }
+
+  .textareaheading {
+    margin-top: 70px;
+  }
+
+  .maintextarea {
+    height: 70px;
+  }
+
+  #mainleftnav-1 {
+      display: flex ;
+      flex-direction: row;
+      width: 100%;
+      height: 70px;
+      background-color: #C9E3E1;
+  }
+
+  .leftcontents{
+    height: 0;
+    background-color: #C9E3E1;
+    padding: 0;
+  }
+  .ant-layout {
+    height: 78vh !important;
+  }
+
+  .box-1 {
+    display: flex;
+  }
+
+  .box-inner {
+    display: none;
+    width: 100vw;
+    flex-direction: row;
+  }
+  .small-left-layout-container {
+    display: flex;
+    flex-direction: row;
+  }
+}
